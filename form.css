@@ -1,6 +1,6 @@
 .form-page {
   width: 360px;
-  padding: 8% 0 0;
+  padding: 4% 0 0;
   margin: auto;
 }
 
@@ -25,6 +25,7 @@ h2 {
   text-align: center;
   box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.25), 0 5px 5px 0 rgba(0, 0, 0, 0.25);
 }
+
 .form input {
   font-family: sans-serif;
   outline: 0;
@@ -36,6 +37,11 @@ h2 {
   box-sizing: border-box;
   font-size: 14px;
 }
+
+.form p {
+  padding-top: 20px;
+}
+
 .form button {
   font-family: sans-serif;
   text-transform: uppercase;
@@ -49,7 +55,7 @@ h2 {
 }
 
 body {
-  background: #B30738; /* fallback for old browsers */
+  background: #B30738;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

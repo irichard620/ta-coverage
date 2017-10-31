@@ -4,9 +4,6 @@
 <META http-equiv="X-UA-Compatible" content="IE=8">
 <TITLE>Register</TITLE>
 <link rel="stylesheet" type="text/css" href="form.css">
-<script src="jquery-3.1.1.min.js"></script>
-<script src="md5.min.js"></script>
-<script src="login.js"></script>
 </HEAD>
 
 <BODY>
@@ -14,15 +11,11 @@
     <h2>TA COVERAGE SYSTEM</h2>
     <form class="form">
       <img src="assets/scu-engineering-school-logo.gif" class="logo">
-      <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
-      <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
+      <input type="text" class="form-control" name="name" placeholder="Name" required="" />
       <input type="text" class="form-control" name="accesscode" placeholder="Access Code" required=""/>
-
-      <!-- I don't think we need to implement a 'remember me' feauture
-      <label class="checkbox">
-        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-      </label>
-      -->
+      <input type="text" class="form-control" name="email" placeholder="Email Address" required=""/>
+      <input type="text" class="form-control" name="password" placeholder="Password" required=""/>
+      <input type="text" class="form-control" name="passwordconfirm" placeholder="Confirm Password" required=""/>
 
       <button type="submit">Register</button>
     </form>

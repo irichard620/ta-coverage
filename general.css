@@ -1,7 +1,22 @@
+.container {
+  width:100%;
+}
+
+.left {
+  float:left;
+}
+
+.right {
+  float:right;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 .logoutButton {
-  position: absolute;
-  top: 20px;
-  right: 20px;
   font-family: sans-serif;
   text-transform: uppercase;
   padding: 20px;
@@ -11,13 +26,20 @@
   cursor: pointer;
 }
 
+.allButton {
+  font-family: sans-serif;
+  padding: 20px;
+  background: #fff;
+  border: 1;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 .info {
-  position: absolute;
-  top: 0px;
-  left: 20px;
   color: #fff;
   font-size: 20px;
   font-family: sans-serif;
+  padding-left: 20px;
 }
 
 body {

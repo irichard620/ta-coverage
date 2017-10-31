@@ -4,6 +4,7 @@
 <META http-equiv="X-UA-Compatible" content="IE=8">
 <TITLE>Register</TITLE>
 <link rel="stylesheet" type="text/css" href="form.css">
+<script src='register.js'></script>
 </HEAD>
 
 <BODY>
@@ -11,14 +12,14 @@
     <h2>TA EMERGENCY COVERAGE</h2>
     <form class="form">
       <img src="assets/scu-engineering-school-logo.gif" class="logo">
-      <input type="text" name="name" placeholder="Name" required="" />
-      <input type="email" name="email" placeholder="Email Address" required=""/>
-      <input type="text" name="phone" placeholder="Phone Number" required=""/>
-      <input type="password" name="password" placeholder="Password" required=""/>
-      <input type="password" name="passwordconfirm" placeholder="Confirm Password" required=""/>
-      <input type="text" name="accesscode" placeholder="Access Code" required=""/>
+      <input id="name" type="text" name="name" placeholder="Name" required="" />
+      <input id="email" type="email" name="email" placeholder="Email Address" required=""/>
+      <input id="phone" type="text" name="phone" placeholder="Phone Number" required=""/>
+      <input id="password" type="password" name="password" placeholder="Password" required=""/>
+      <!--<input id="name" type="password" name="passwordconfirm" placeholder="Confirm Password" required=""/>-->
+      <input id="accesscode" type="text" name="accesscode" placeholder="Access Code" required=""/>
 
-      <button type="submit">Register</button>
+      <button type="submit" onClick=register();>Register</button>
     </form>
   </div>
 </div>

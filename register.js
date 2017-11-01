@@ -1,14 +1,10 @@
 function register() {
-  $.post('register.php?name=' +
-    $('#name').val() + '&email=' +
-    $('#email').val() + '&password=' +
-    $('#password').val() + '&phone=' +
-    $('#phone').val() + '&code=' +
-    $('#accesscode').val()).done(function(result) {
-      if (result == 'Success') {
-        window.location.href = 'login.html';
-      } else {
-        alert(result);
-      }
-    });
+  var NAME = $('#name').val();
+  var EMAIL = $('#email').val();
+  var PASSWORD = $('#password').val();
+  var PHONE = $('#phone').val();
+  var CODE = $('#accesscode').val();
+  $.post('register.php', { name: NAME, email: EMAIL, password: PASSWORD, phone: PHONE, code: CODE }).done(function(data) {
+    alert(data);
+  });
 }

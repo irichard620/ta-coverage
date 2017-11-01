@@ -1,5 +1,3 @@
-// The purpose of this file is to establish a connection with our MySQL database
-
 <?php
     $host = 'dbserver.engr.scu.edu';
     $dbname = 'sdb_irichard';

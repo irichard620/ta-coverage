@@ -3,11 +3,12 @@
 	require_once('config.php');
 	
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$name = trim($_POST["name"]);
-		$email = trim($_POST["email"]);
-		$password = trim($_POST["password"]);
-		$phone = trim($_POST["phone"]);
-		$code = trim($_POST["code"]);
+		echo json_encode($_POST);
+		$name = (isset($_POST['name']) ? $_POST['name'] : null);
+		$email = (isset($_POST['email']) ? $_POST['email'] : null);
+		$password = (isset($_POST['password']) ? $_POST['password'] : null);
+		$phone = (isset($_POST['phone']) ? $_POST['phone'] : null);
+		$code = (isset($_POST['code']) ? $_POST['code'] : null);
 		
 		$error = False;
 		
@@ -31,15 +32,14 @@
 		if (!$error) {
 			// No fields missing
 			// Now, check if email already exists in system
-			$sql = "SELECT _id FROM users WHERE email=?;
+			$sql = "SELECT _id FROM users WHERE email=:email";
 			$stmt = $db_conn->prepare($sql);
-			$stmt->bindParam("s", $email);
+			$stmt->bindParam(':email', $email);
 			if (!$stmt->execute()) {
 				$error = True;
 				echo json_encode('DbError');
 			} else {
-				$result = $stmt->get_result();
-				if ($row = $result->fetch()) {
+				if ($row = $stmt->fetch()) {
 					$error = True;
 					echo json_encode('AccountExistsError');
 				} 
@@ -49,15 +49,14 @@
 		if (!$error) {
 			// Unique account
 			// Now check access code
-			$sql = "SELECT _id FROM codes WHERE code=?;
+			$sql = "SELECT _id FROM codes WHERE code=:code";
 			$stmt = $db_conn->prepare($sql);
-			$stmt->bindParam("s", $code);
+			$stmt->bindParam(':code', $code);
 			if (!$stmt->execute()) {
 				$error = True;
 				echo json_encode('DbError');
 			} else {
-				$result = $stmt->get_result();
-				if (!($row = $result->fetch())) {
+				if (!($row = $stmt->fetch())) {
 					$error = True;
 					echo json_encode('InvalidCodeError');
 				} 
@@ -72,7 +71,7 @@
 			$_id = uniqid();
 				
 			// Now, create sql statement
-			$sql = "INSERT INTO users (_id, name, email, phone, code, password) VALUES (:_id, :name, :email, :phone, :code, :password);
+			$sql = "INSERT INTO users (_id, name, email, phone, code, password) VALUES (:_id, :name, :email, :phone, :code, :password)";
 			$stmt = $db_conn->prepare($sql);
 			$stmt->bindParam(':_id', $_id);
 			$stmt->bindParam(':name', $name);

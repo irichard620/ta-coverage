@@ -2,8 +2,9 @@
 	// First, import DB configuration
 	require_once('config.php');
 	
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		echo json_encode($_POST);
+	header("Content-Type: application/json");
+	
+	function register($db_conn) {
 		$name = (isset($_POST['name']) ? $_POST['name'] : null);
 		$email = (isset($_POST['email']) ? $_POST['email'] : null);
 		$password = (isset($_POST['password']) ? $_POST['password'] : null);
@@ -11,22 +12,18 @@
 		$code = (isset($_POST['code']) ? $_POST['code'] : null);
 		
 		$error = False;
+		$errorMessage = "";
 		
 		if (empty($name)) {
-			$error = True;
-			echo json_encode('MissingNameError');
+			return array('response' => 'MissingNameError', 'user' => '');
 		} else if (empty($email)) {
-			$error = True;
-			echo json_encode('MissingEmailError');
+			return array('response' => 'MissingEmailError', 'user' => '');
 		} else if (empty($password)) {
-			$error = True;
-			echo json_encode('MissingPasswordError');
+			return array('response' => 'MissingPasswordError', 'user' => '');
 		} else if (empty($phone)) {
-			$error = True;
-			echo json_encode('MissingPhoneError');
+			return array('response' => 'MissingPhoneError', 'user' => '');
 		} else if (empty($code)) {
-			$error = True;
-			echo json_encode('MissingCodeError');
+			return array('response' => 'MissingCodeError', 'user' => '');
 		} 
 		
 		if (!$error) {
@@ -36,12 +33,10 @@
 			$stmt = $db_conn->prepare($sql);
 			$stmt->bindParam(':email', $email);
 			if (!$stmt->execute()) {
-				$error = True;
-				echo json_encode('DbError');
+				return array('response' => 'DbError', 'user' => '');
 			} else {
 				if ($row = $stmt->fetch()) {
-					$error = True;
-					echo json_encode('AccountExistsError');
+					return array('response' => 'AccountExistsError', 'user' => '');
 				} 
 			}
 		}
@@ -53,12 +48,10 @@
 			$stmt = $db_conn->prepare($sql);
 			$stmt->bindParam(':code', $code);
 			if (!$stmt->execute()) {
-				$error = True;
-				echo json_encode('DbError');
+				return array('response' => 'DbError', 'user' => '');
 			} else {
 				if (!($row = $stmt->fetch())) {
-					$error = True;
-					echo json_encode('InvalidCodeError');
+					return array('response' => 'InvalidCodeError', 'user' => '');
 				} 
 			}
 		}
@@ -78,14 +71,22 @@
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':phone', $phone);
 			$stmt->bindParam(':code', $code);
-			$stmt->bindParam(':password', password_hash($password));
+			$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+			$stmt->bindParam(':password', $hashed_password);
+			
+			$createdUser = array('_id' => $_id, 'name' => $name, 'email' => $email, 'phone' => phone);
 					
 			if ($stmt->execute()) {
-				echo json_encode('Success');
+				return array('response' => 'Success', 'user' => $createdUser);
 			} else {
-				echo json_encode('DbError');
-			}
-			
+				return array('response' => 'DbError', 'user' => '');
+			}			
 		}
+	}
+	
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$output = register($db_conn);
+		$db_conn = NULL;
+		echo json_encode($output);
 	}
 ?>

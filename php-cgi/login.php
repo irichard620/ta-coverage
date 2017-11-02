@@ -3,45 +3,41 @@
 	
 	header("Content-Type: application/json");
 	
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$email = (isset($_POST['email']) ? $_POST['email'] : null);
-		$password = (isset($_POST['password']) ? $_POST['password'] : null);
-		
-		$error = False;
+	function login($db_conn) {
+		$email = (isset($_GET['email']) ? $_GET['email'] : null);
+		$password = (isset($_GET['password']) ? $_GET['password'] : null);
 		
 		if (empty($email)) {
-			$error = True;
-			echo json_encode(array('response' => 'MissingEmailError'));			
+			return array('response' => 'MissingEmailError','user' => '');			
 		} else if (empty($password)) {
-			$error = True;
-			echo json_encode(array('response' => 'MissingPasswordError'));
+			return array('response' => 'MissingPasswordError','user' => '');
 		} 
 		
-		if (!$error) {
-			// No missing fields
-			// Let's now check if account exists in system
-			
-			$sql = "SELECT _id, name, email, password, email, phone FROM users WHERE email=:email";
-			$stmt = $db_conn->prepare($sql);
-			$stmt->bindParam(':email', $email);
-			if (!$stmt->execute()) {
-				$error = True;
-				echo json_encode(array('response' => 'DbError'));
+		$sql = "SELECT _id, name, email, password, email, phone FROM users WHERE email=:email";
+		$stmt = $db_conn->prepare($sql);
+		$stmt->bindParam(':email', $email);
+		if (!$stmt->execute()) {
+			return array('response' => 'DbError','user' => '');
+		} else {
+			$row = $stmt->fetch();
+			if (!$row) {
+				return array('response' => 'AccountNotFoundError','user' => '');
 			} else {
-				$row = $stmt->fetch();
-				if (!$row) {
-					$error = True;
-					echo json_encode(array('response' => 'AccountNotFoundError'));
+				// Validate password
+				$hashed_password = $row['password'];
+				if (password_verify($password, $hashed_password)) {
+					$loggedInUser = array('_id' => $row['_id'], 'name' => $row['name'], 'email' => $row['email'], 'phone' => $row['phone']);
+					return array('response' => 'Success', 'user' => $loggedInUser);
 				} else {
-					// Validate password
-					$hashed_password = $row['password'];
-					if (password_verify($password, $hashed_password)) {
-						echo json_encode(array('response' => 'Success'));
-					} else {
-						echo json_encode(array('response' => 'IncorrectPasswordError'));
-					}
+					return array('response' => 'IncorrectPasswordError','user' => '');
 				}
-			} 
+			}
 		}
 	}
+	
+	if ($_SERVER["REQUEST_METHOD"] == "GET") {
+		$output = login($db_conn);
+		echo json_encode($output);
+	}
+	$db_conn = NULL;
 ?>

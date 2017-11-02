@@ -5,21 +5,17 @@ function register() {
   var PHONE = $('#phone').val();
   var CODE = $('#accesscode').val();
   var request = $.ajax({
-  	url: "php-cgi/register.php",
+  	url: "php-cgi/register.php?name=" + NAME + "&email=" + EMAIL + "&password=" + PASSWORD + "&phone=" + PHONE + "&code=" + CODE,
 	async: true,
 	crossDomain: true,
 	timeout: 2000,
-	type: "post",
-	dataType: "json",       
-	data: { name: NAME, email: EMAIL, password: PASSWORD, phone: PHONE, code: CODE }
+	type: "get",
+	dataType: "json"
   });
   request.done(function (data, textStatus, jqxhr) {
 	var result = data.response;
-	console.log(result);
-	alert(result);
 	if (result.includes("Success")) {
-		alert("Success!");
-		window.location.href = 'dashboard.html';
+		window.location.href = 'login.html';
 	} else {
 		if (result.includes("MissingNameError")) {
 			alert("You must enter your name to complete registration");

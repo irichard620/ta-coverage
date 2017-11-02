@@ -6,9 +6,8 @@ function createListOfTAs() {
   });
   request.done(function (data, textStatus, jqxhr) {
     var response = data.response;
-	  var users = data.users;
-	  if (response.includes("Success")) {
-
+    var users = data.users;
+    if (response.includes("Success")) {
       var htmlString = "";
       var separatorString = "<div class='separator'> - </div>";
 
@@ -24,8 +23,8 @@ function createListOfTAs() {
 
       $("#alltas ul").append(htmlString);
     } else {
-		    alert("Error");
-	  }
+	alert("Error");
+    }
   });
   request.fail(function() {
   	alert("Failed");

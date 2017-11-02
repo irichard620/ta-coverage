@@ -109,6 +109,42 @@
 		}
 	}
 	
+	function getQualifiedLabs($db_conn, $user_id) {
+		$sql = "SELECT labs._id, labs.title, labs.labTime FROM userlabqualified INNER JOIN labs ON labs._id=userlabqualified.lab_id WHERE userlabqualified.user_id=:user_id ";
+		$stmt = $db_conn->prepare($sql);
+		$stmt->bindParam(':user_id', $user_id);
+		if (!$stmt->execute()) {
+			return array('response' => $stmt->errorInfo(), 'labs' => '');
+		} else {
+			$allLabs = $stmt->fetchAll();
+			foreach ($allLabs as &$lab) {
+				unset($lab['0']);
+				unset($lab['1']);
+				unset($lab['2']);
+			}
+			unset($lab);
+			return array('response' => 'Success', 'labs' => $allLabs);
+		}		
+	}
+	
+	function getManagedLabs($db_conn, $user_id) {
+		$sql = "SELECT labs._id, labs.title, labs.labTime FROM userlabmanaging INNER JOIN labs ON labs._id=userlabmanaging.lab_id WHERE userlabmanaging.user_id=:user_id ";
+		$stmt = $db_conn->prepare($sql);
+		$stmt->bindParam(':user_id', $user_id);
+		if (!$stmt->execute()) {
+			return array('response' => $stmt->errorInfo(), 'labs' => '');
+		} else {
+			$allLabs = $stmt->fetchAll();
+			foreach ($allLabs as &$lab) {
+				unset($lab['0']);
+				unset($lab['1']);
+				unset($lab['2']);
+			}
+			unset($lab);
+			return array('response' => 'Success', 'labs' => $allLabs);
+		}
+	}
+	
 	function removeQualifiedLab($db_conn, $user_id, $lab_id) {
 		$sql = "DELETE FROM userlabqualified WHERE user_id=:user_id AND lab_id=:lab_id";
 		$stmt = $db_conn->prepare($sql);
@@ -142,12 +178,23 @@
 	} else if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		// Get all labs, mark if they are already qualified for this user
 		$user_id = (isset($_GET['user_id']) ? $_GET['user_id'] : null);
+		$type = (isset($_GET['type']) ? $_GET['type'] : null);
 		
 		if (empty($user_id)) {
 			echo json_encode(array('response' => 'MissingUserIdError'));
+		} else if (empty($type)) {
+			echo json_encode(array('response' => 'MissingTypeError'));
 		} else {
-			$output = getAllLabs($db_conn, $user_id);
-			echo json_encode($output);
+			if ($type == "all") {
+				$output = getAllLabs($db_conn, $user_id);
+				echo json_encode($output);
+			} else if ($type == "qualified") {
+				$output = getQualifiedLabs($db_conn, $user_id);
+				echo json_encode($output);
+			} else if ($type == "managed") {
+				$output = getManagedLabs($db_conn, $user_id);
+				echo json_encode($output);
+			}
 		}
 
 	} else if ($_SERVER["REQUEST_METHOD"] == "DELETE") {

@@ -5,11 +5,12 @@ function register() {
   var PHONE = $('#phone').val();
   var CODE = $('#accesscode').val();
   var request = $.ajax({
-  	url: "php-cgi/register.php?name=" + NAME + "&email=" + EMAIL + "&password=" + PASSWORD + "&phone=" + PHONE + "&code=" + CODE,
+  	url: "php-cgi/register.php?",
 	async: true,
 	crossDomain: true,
 	timeout: 2000,
-	type: "get",
+	type: "post",
+	data: {'name': NAME, 'email': EMAIL, 'password': PASSWORD, 'phone': PHONE, 'code': CODE},
 	dataType: "json"
   });
   request.done(function (data, textStatus, jqxhr) {

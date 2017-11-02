@@ -5,11 +5,11 @@
 	header("Content-Type: application/json");
 	
 	function register($db_conn) {
-		$name = (isset($_GET['name']) ? $_GET['name'] : null);
-		$email = (isset($_GET['email']) ? $_GET['email'] : null);
-		$password = (isset($_GET['password']) ? $_GET['password'] : null);
-		$phone = (isset($_GET['phone']) ? $_GET['phone'] : null);
-		$code = (isset($_GET['code']) ? $_GET['code'] : null);
+		$name = (isset($_POST['name']) ? $_POST['name'] : null);
+		$email = (isset($_POST['email']) ? $_POST['email'] : null);
+		$password = (isset($_POST['password']) ? $_POST['password'] : null);
+		$phone = (isset($_POST['phone']) ? $_POST['phone'] : null);
+		$code = (isset($_POST['code']) ? $_POST['code'] : null);
 		
 		if (empty($name)) {
 			return array('response' => 'MissingNameError', 'user' => '');
@@ -77,7 +77,7 @@
 		}			
 	}
 	
-	if ($_SERVER["REQUEST_METHOD"] == "GET") {
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$output = register($db_conn);
 		$db_conn = NULL;
 		echo json_encode($output);

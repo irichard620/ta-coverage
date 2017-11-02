@@ -52,14 +52,14 @@ function updateAvailability(labId, qualified) {
   // POST REQUEST TO CREATE RELATIONSHIP
   if (qualified) {
     var request = $.ajax({
-      url: 'php-cgi/labs.php'
+      url: 'php-cgi/labs.php',
       type: 'post',
       dataType: "json",
       data: {user_id: userId, lab_id: labId, type: 'edit'}
     });
   } else {  // DELETE REQUEST TO DELETE RELATIONSHIP
     var request = $.ajax({
-      url: 'php-cgi/labs.php'
+      url: 'php-cgi/labs.php',
       type: 'delete',
       dataType: "json",
       data: {user_id: userId, lab_id: labId}

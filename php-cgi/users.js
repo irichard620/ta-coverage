@@ -9,10 +9,11 @@ function createListOfTAs() {
 	  var users = data.users;
 	  if (response.includes("Success")) {
 
-      var htmlString = "<li><div>";
+      var htmlString = "";
       var separatorString = "<div class='separator'> - </div>";
 
-      for (var i = 0; i < users; i++) {
+      for (var i = 0; i < users.length; i++) {
+        htmlString += "<li><div>";
         htmlString += ("<div class='name'>" + users[i].name + "</div>");
         htmlString += separatorString;
         htmlString += ("<div class='email'>" + users[i].email + "</div>");
@@ -21,7 +22,7 @@ function createListOfTAs() {
         htmlString += "</div></li>";
       }
 
-      $("#alltas ul").append('htmlString')
+      $("#alltas ul").append(htmlString);
     } else {
 		    alert("Error");
 	  }

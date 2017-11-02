@@ -6,12 +6,16 @@ function register() {
   var CODE = $('#accesscode').val();
   request = $.ajax({
   	url: "php-cgi/register.php",
+	async: true,
+	crossDomain: true,
+	timeout: 2000,
 	type: "post",
 	dataType: "json",       
 	data: { name: NAME, email: EMAIL, password: PASSWORD, phone: PHONE, code: CODE }
   });
   request.done(function (data, textStatus, jqxhr) {
 	var result = data.response;
+	console.log(result);
 	alert(result);
 	if (result.includes("Success")) {
 		alert("Success!");
@@ -37,5 +41,11 @@ function register() {
 			alert("Unknown error occurred");
 		}
 	}
+  });
+  request.fail(function() {
+  	console.log("Request failed");
+  });
+  request.always(function(data) {
+  	console.log(data);
   });
 }

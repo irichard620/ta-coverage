@@ -14,11 +14,8 @@ function register() {
   });
   request.done(function (data, textStatus, jqxhr) {
 	var result = data.response;
-	console.log(result);
-	alert(result);
 	if (result.includes("Success")) {
-		alert("Success!");
-		window.location.href = 'dashboard.html';
+		window.location.href = 'login.html';
 	} else {
 		if (result.includes("MissingNameError")) {
 			alert("You must enter your name to complete registration");

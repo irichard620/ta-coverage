@@ -4,6 +4,7 @@
 <META http-equiv="X-UA-Compatible" content="IE=8">
 <TITLE>Dashboard</TITLE>
 <link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="lists.css">
 </HEAD>
 
 <BODY>
@@ -14,10 +15,47 @@
     <div class="right">
       <button class="logoutButton" onclick="location.href='login.html';" type="submit">Logout</button>
     </div>
-    <div class="center">
+    <div>
       <button class="allButton" onclick="location.href='alltas.html';" type="submit">All TAs</button>
     </div>
   </div>
-</div>
+  <div>
+    <h1>Labs Managed</h1>
+    <ul class="rolldown-list myList">
+      <li>
+        <div>
+          <div class="lab">COEN 174L</div>
+          <div class="separator"> - </div>
+          <div class="time">Monday (2:15PM)</div>
+          <div class="separator"> - </div>
+          <div class="lab">624232</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div style="padding-top: 200px;">
+    <h1>Labs Available For</h1>
+    <button class="allButton" onclick="location.href='alllabs.html';" type="submit">Edit Availability</button>
+    <ul style="padding-top: 10px;" class="rolldown-list myList">
+      <li>
+        <div>
+          <div class="lab">COEN 177L</div>
+          <div class="separator"> - </div>
+          <div class="time">Wednesday (2:15PM)</div>
+          <div class="separator"> - </div>
+          <div class="lab">624512</div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="lab">COEN 12L</div>
+          <div class="separator"> - </div>
+          <div class="time">Wednesday (5:00PM)</div>
+          <div class="separator"> - </div>
+          <div class="lab">624482</div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </BODY>
 </HTML>

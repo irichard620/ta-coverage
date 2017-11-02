@@ -8,18 +8,44 @@
   padding: 20px;
   margin-bottom: 5px;
   display: block;
-  list-style: none;
-  text-transform: uppercase;
   background-color: #FFF;
+  text-align: center;
+}
+
+.name {
+  display: inline-block;
+  font-size: 20px;
+  color: #B30738;
+  font-weight: bold;
+}
+
+.email {
+  display: inline-block;
+  font-size: 20px;
+  color: #0066ff;
+  font-weight: bold;
+}
+
+.phone {
+  display: inline-block;
+  font-size: 20px;
+  color: #B30738;
+  font-weight: bold;
+}
+
+.separator {
+  display: inline-block;
+  font-size: 20px;
+  color: #000000;
+  font-weight: bold;
 }
 
 button {
   font-family: sans-serif;
   text-transform: uppercase;
-  background: #B30738;
+  background: #FFFFFF;
   border: 1;
   padding: 15px;
-  color: #FFFFFF;
   font-size: 14px;
   cursor: pointer;
   display: block;

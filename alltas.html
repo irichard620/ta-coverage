@@ -5,16 +5,17 @@
 <TITLE>All TAs</TITLE>
 <link rel="stylesheet" type="text/css" href="lists.css">
 <link rel="stylesheet" type="text/css" href="general.css">
+<script src='php-cgi/users.js'></script>
 </HEAD>
 
-<BODY>
+<BODY onload="createListOfTAs();">
 <div>
   <div style='padding-top: 20px;'>
     <button onclick="location.href='dashboard.html';">BACK TO DASHBOARD</button>
     <h1>ALL TAs</h1>
   </div>
   <div>
-    <ul class="rolldown-list" id="myList">
+    <ul class="rolldown-list myList" id="alltas">
       <li>
         <div>
           <div class="name">John Smith</div>

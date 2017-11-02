@@ -1,5 +1,4 @@
 .rolldown-list {
-  text-align: left;
   padding: 0;
   margin: 0;
 }
@@ -10,6 +9,20 @@
   display: block;
   background-color: #FFF;
   text-align: center;
+}
+
+.lab {
+  display: inline-block;
+  font-size: 20px;
+  color: #B30738;
+  font-weight: bold;
+}
+
+.time {
+  display: inline-block;
+  font-size: 20px;
+  color: #0066ff;
+  font-weight: bold;
 }
 
 .name {
@@ -52,7 +65,7 @@ button {
   margin: 0 auto;
 }
 
-#myList {
+.myList {
   position: absolute;
   width: 50%;
   left: 50%;

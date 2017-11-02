@@ -4,7 +4,7 @@ function register() {
   var PASSWORD = $('#password').val();
   var PHONE = $('#phone').val();
   var CODE = $('#accesscode').val();
-  request = $.ajax({
+  var request = $.ajax({
   	url: "php-cgi/register.php",
 	async: true,
 	crossDomain: true,

@@ -8,18 +8,20 @@ function createListOfTAs() {
     var response = data.response;
     var users = data.users;
     if (response.includes("Success")) {
-    	var htmlString = "<li><div>";
-    	var separatorString = "<div class='separator'> - </div>";
+      var htmlString = "";
+      var separatorString = "<div class='separator'> - </div>";
 
-    	for (var i = 0; i < users.length; i++) {
-        	htmlString += ("<div class='name'>" + users[i].name + "</div>");
-        	htmlString += separatorString;
-        	htmlString += ("<div class='email'>" + users[i].email + "</div>");
-        	htmlString += separatorString;
-        	htmlString += ("<div class='phone'>" + users[i].phone + "</div>");
-        	htmlString += "</div></li>";
-    	}
-    	$("#alltas ul").append(htmlString);
+      for (var i = 0; i < users.length; i++) {
+        htmlString += "<li><div>";
+        htmlString += ("<div class='name'>" + users[i].name + "</div>");
+        htmlString += separatorString;
+        htmlString += ("<div class='email'>" + users[i].email + "</div>");
+        htmlString += separatorString;
+        htmlString += ("<div class='phone'>" + users[i].phone + "</div>");
+        htmlString += "</div></li>";
+      }
+
+      $("#alltas ul").append(htmlString);
     } else {
 	alert("Error");
     }

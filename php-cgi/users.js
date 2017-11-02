@@ -31,9 +31,3 @@ function createListOfTAs() {
   	alert("Failed");
   });
 }
-
-//Lab Object
-//id
-//title
-//labTime
-//qualified

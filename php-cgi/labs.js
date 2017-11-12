@@ -1,8 +1,8 @@
 function createListOfLabs() {
-
+	
   var userId = localStorage.getItem('_id');
   var request = $.ajax({
-    url: 'php-cgi/labs.php?user_id=' + userId,
+    url: 'php-cgi/labs.php?user_id=' + userId + '&type=all',
     type: 'get',
     dataType: "json",
   });
@@ -26,14 +26,11 @@ function createListOfLabs() {
         $("#alllabs ul").append(htmlString);
 
         // Check appropriate check boxesd\
-        $("#" + labs[i]._id).change(function() {
-          cb = $(this);
-          if (labs[i].qualified) {
-            cb.val(cb.prop('checked'));
-          }
-        });
+        if (labs[i].qualified) {
+					$('#' + labs[i]._id).prop('checked', true);
+				}
 
-        htmlString = "";  //Reset htmlstring for next iteration (lab)
+        htmlString = "";  // Reset htmlstring for next iteration (lab)
       }
 
     } else {
@@ -67,12 +64,9 @@ function updateAvailability(labId, qualified) {
   }
 }
 
-$(document).ready(function() {
-  $(":checkbox").change(function() {
+$(document).on('change', ':checkbox', function() {
     updateAvailability(this.id, this.checked);
-  });
 });
-
 
 //Lab object
 //_id

@@ -101,7 +101,6 @@
 					unset($lab['1']);
 					unset($lab['2']);
 				}
-				unset($lab);
 				
 				return array('response' => 'Success', 'labs' => $allLabs);
 				

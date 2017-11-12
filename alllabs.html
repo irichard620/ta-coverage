@@ -9,24 +9,14 @@
 <script src='php-cgi/labs.js'></script>
 </HEAD>
 
-<BODY>
+<BODY onLoad="createListOfLabs();">
   <div>
     <div style='padding-top: 20px;'>
       <button onclick="location.href='dashboard.html';">SAVE SELECTIONS</button>
       <h1>Select All Lab Sections You Could Cover For</h1>
     </div>
-    <div class="alllabs">
+    <div id="alllabs">
       <ul class="rolldown-list myList">
-        <li>
-          <div>
-            <div class="lab">COEN 177L Dummy</div>
-            <div class="separator"> - </div>
-            <div class="time">Wednesday (2:15PM)</div>
-            <div class="separator"> - </div>
-            <div class="lab">624512</div>
-            <input id="test" class="checkbox" type="checkbox">
-          </div>
-        </li>
       </ul>
     </div>
   </div>

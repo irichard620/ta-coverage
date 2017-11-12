@@ -5,9 +5,11 @@
 <TITLE>Dashboard</TITLE>
 <link rel="stylesheet" type="text/css" href="general.css">
 <link rel="stylesheet" type="text/css" href="lists.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src='php-cgi/dashboard.js'></script>
 </HEAD>
 
-<BODY>
+<BODY onLoad="initDashboard();">
   <div class="container">
     <div class="left">
       <p class="info">{Your Name Here}</p>
@@ -19,42 +21,15 @@
       <button class="allButton" onclick="location.href='alltas.html';" type="submit">All TAs</button>
     </div>
   </div>
-  <div>
+  <div id="managedLabs">
     <h1>Labs Managed</h1>
     <ul class="rolldown-list myList">
-      <li>
-        <div>
-          <div class="lab">COEN 174L</div>
-          <div class="separator"> - </div>
-          <div class="time">Monday (2:15PM)</div>
-          <div class="separator"> - </div>
-          <div class="lab">624232</div>
-        </div>
-      </li>
     </ul>
   </div>
-  <div style="padding-top: 200px;">
+  <div style="padding-top: 200px;" id="qualifiedLabs">
     <h1>Labs Available For</h1>
     <button class="allButton" onclick="location.href='alllabs.html';" type="submit">Edit Availability</button>
     <ul style="padding-top: 10px;" class="rolldown-list myList">
-      <li>
-        <div>
-          <div class="lab">COEN 177L</div>
-          <div class="separator"> - </div>
-          <div class="time">Wednesday (2:15PM)</div>
-          <div class="separator"> - </div>
-          <div class="lab">624512</div>
-        </div>
-      </li>
-      <li>
-        <div>
-          <div class="lab">COEN 12L</div>
-          <div class="separator"> - </div>
-          <div class="time">Wednesday (5:00PM)</div>
-          <div class="separator"> - </div>
-          <div class="lab">624482</div>
-        </div>
-      </li>
     </ul>
   </div>
 </BODY>

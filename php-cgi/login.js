@@ -2,7 +2,7 @@ function login() {
   var EMAIL = $('#email').val();
   var PASSWORD = $('#password').val();
   var request = $.ajax({
-    url: 'http://students.engr.scu.edu/~irichard/php-cgi/login.php?email=' + EMAIL + '&password=' + PASSWORD,
+    url: 'php-cgi/login.php?email=' + EMAIL + '&password=' + PASSWORD,
     type: 'get',
     dataType: "json"
   });

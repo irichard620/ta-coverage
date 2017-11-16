@@ -7,12 +7,32 @@ function initLabDashboard() {
   var labId = localStorage.getItem('lab_id');
 
   var request = $.ajax({
-    url: 'php-cgi/users.php?lab_id=' + labId + '&type=qualified',
+    url: 'php-cgi/labs.php?user_id=' + userId + '&type=byId&lab_id=' + labId,
     type: 'get',
     dataType: "json",
   });
 
   request.done(function (data, textStatus, jqxhr) {
+    var response = data.response;
+    var lab = data.lab;
+    if (response.includes("Success")) {
+      document.getElementById('labTitle').innerHTML = 'Title: ' + lab.title;
+      document.getElementById('labTime').innerHTML = 'Time: ' + lab.labTime;
+    } else {
+        alert("Error");
+    }
+  });
+  request.fail(function() {
+    alert("Failed");
+  });
+
+  var request2 = $.ajax({
+    url: 'php-cgi/users.php?lab_id=' + labId + '&type=qualified',
+    type: 'get',
+    dataType: "json",
+  });
+
+  request2.done(function (data, textStatus, jqxhr) {
     var response = data.response;
     var users = data.users;
     if (response.includes("Success")) {
@@ -37,7 +57,7 @@ function initLabDashboard() {
         alert("Error");
     }
   });
-  request.fail(function() {
+  request2.fail(function() {
     alert("Failed");
   });
 }

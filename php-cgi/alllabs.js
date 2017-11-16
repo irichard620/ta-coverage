@@ -3,7 +3,6 @@ function createListOfLabs() {
 	if (userId == null) {
 		window.location.href = 'login.html';
 	}
-  var userId = localStorage.getItem('_id');
   var request = $.ajax({
     url: 'php-cgi/labs.php?user_id=' + userId + '&type=all',
     type: 'get',

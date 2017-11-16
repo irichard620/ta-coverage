@@ -5,7 +5,7 @@ function createListOfTAs() {
 	}
 
   var request = $.ajax({
-    url: 'php-cgi/users.php' + '&type=all',
+    url: 'php-cgi/users.php?type=all',
     type: 'get',
     dataType: "json"
   });

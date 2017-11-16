@@ -57,11 +57,11 @@ function initDashboard() {
       var separatorString = "<div class='separator'> - </div>";
 
       for (var i = 0; i < labs.length; i++) {
-        htmlString += "<li id='" + labs[i]._id + "'><div>";
+        htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += separatorString;
         htmlString += ("<div class='time'>" + labs[i].labTime + "</div>");
-				htmlString += ("<button onclick=goToLabDashboard(" + labs[i]._id + ");>" + MORE + "</button>";
+		htmlString += ("<button onClick=goToLabDashboard('" + labs[i]._id + "');>MORE</button>");
         htmlString += "</div></li>";
 
         //add html to list

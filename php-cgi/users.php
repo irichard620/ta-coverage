@@ -27,7 +27,7 @@
 			return array('response' => $stmt->errorInfo(), 'users' => '');
 		} else {
 			$allUsers = $stmt->fetchAll();
-			return array('response' => 'Success', 'labs' => $allUsers);
+			return array('response' => 'Success', 'users' => $allUsers);
 		}
 	}
 

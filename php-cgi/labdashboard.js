@@ -1,10 +1,10 @@
 function initLabDashboard() {
   var userId = localStorage.getItem('_id');
-	if (userId == null) {
+  if (userId == null) {
 		window.location.href = 'login.html';
-	}
+  }
 
-	var labId = localStorage.getItem('lab_id');
+  var labId = localStorage.getItem('lab_id');
 
   var request = $.ajax({
     url: 'php-cgi/users.php?lab_id=' + labId + '&type=qualified',

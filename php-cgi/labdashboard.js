@@ -1,9 +1,17 @@
-function createListOfTAs() {
+function initLabDashboard() {
+  var userId = localStorage.getItem('_id');
+	if (userId == null) {
+		window.location.href = 'login.html';
+	}
+
+	var labId = localStorage.getItem('lab_id');
+
   var request = $.ajax({
-    url: 'php-cgi/users.php',
+    url: 'php-cgi/users.php?lab_id=' + labId + '&type=qualified',
     type: 'get',
-    dataType: "json"
+    dataType: "json",
   });
+
   request.done(function (data, textStatus, jqxhr) {
     var response = data.response;
     var users = data.users;
@@ -19,14 +27,17 @@ function createListOfTAs() {
         htmlString += separatorString;
         htmlString += ("<div class='phone'>" + users[i].phone + "</div>");
         htmlString += "</div></li>";
-      }
 
-      $("#alltas ul").append(htmlString);
+        //add html to list
+        $("#qualifiedTas ul").append(htmlString);
+
+        htmlString = "";  // Reset htmlstring for next iteration (lab)
+      }
     } else {
-	alert("Error");
+        alert("Error");
     }
   });
   request.fail(function() {
-  	alert("Failed");
+    alert("Failed");
   });
 }

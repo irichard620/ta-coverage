@@ -6,14 +6,14 @@ function initDashboard() {
 		var name = localStorage.getItem('name');
 		$("p").text(name);
 	}
-	
+
 	// Retrieve qualified labs for this user
   var request = $.ajax({
     url: 'php-cgi/labs.php?user_id=' + userId + '&type=qualified',
     type: 'get',
     dataType: "json",
   });
-	
+
 	request.done(function (data, textStatus, jqxhr) {
     var response = data.response;
     var labs = data.labs;
@@ -41,14 +41,14 @@ function initDashboard() {
   request.fail(function() {
     alert("Failed");
   });
-	
+
 	// Retrieve managed labs for this user
 	var request2 = $.ajax({
     url: 'php-cgi/labs.php?user_id=' + userId + '&type=managed',
     type: 'get',
     dataType: "json",
   });
-	
+
 	request2.done(function (data, textStatus, jqxhr) {
     var response = data.response;
     var labs = data.labs;
@@ -57,7 +57,7 @@ function initDashboard() {
       var separatorString = "<div class='separator'> - </div>";
 
       for (var i = 0; i < labs.length; i++) {
-        htmlString += "<li><div>";
+        htmlString += "<li id='" + labs[i].labTime + "'><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += separatorString;
         htmlString += ("<div class='time'>" + labs[i].labTime + "</div>");
@@ -76,4 +76,16 @@ function initDashboard() {
   request2.fail(function() {
     alert("Failed");
   });
+}
+
+function getTarget(event) {
+	event = event || window.event;
+	return event.target || event.srcElement;
+}
+
+var ul = document.getElementById('managedLabsList');
+ul.onClick = function(event) {
+	var target = getTarget(event);
+	localStorage.setItem('lab_id', target.id);
+	window.location.href = 'labdashboard.html';
 }

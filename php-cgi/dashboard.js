@@ -7,13 +7,6 @@ function initDashboard() {
 		$("p").text(name);
 	}
 
-	var ul = document.getElementById('managedLabsList');
-	ul.onClick = function(event) {
-		var target = getTarget(event);
-		localStorage.setItem('lab_id', target.id);
-		window.location.href = 'labdashboard.html';
-	}
-
 	// Retrieve qualified labs for this user
   var request = $.ajax({
     url: 'php-cgi/labs.php?user_id=' + userId + '&type=qualified',
@@ -68,6 +61,7 @@ function initDashboard() {
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += separatorString;
         htmlString += ("<div class='time'>" + labs[i].labTime + "</div>");
+				htmlString += ("<button onclick=goToLabDashboard(" + labs[i]._id + ");>" + MORE + "</button>";
         htmlString += "</div></li>";
 
         //add html to list
@@ -85,7 +79,7 @@ function initDashboard() {
   });
 }
 
-function getTarget(event) {
-	event = event || window.event;
-	return event.target || event.srcElement;
+function goToLabDashboard(lab_id) {
+	localStorage.setItem('lab_id', lab_id);
+	window.location.href = "labdashboard.html";
 }

@@ -93,6 +93,7 @@
 					foreach($qualifiedLabs as $lab_id) {
 						if ($lab['_id'] == $lab_id) {
 							$lab['qualified'] = True;
+							break;
 						} else {
 							$lab['qualified'] = False;
 						}
@@ -100,6 +101,7 @@
 					unset($lab['0']);
 					unset($lab['1']);
 					unset($lab['2']);
+					unset($lab);
 				}
 				
 				return array('response' => 'Success', 'labs' => $allLabs);

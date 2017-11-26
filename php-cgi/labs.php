@@ -113,7 +113,7 @@
 	function getLabById($db_conn, $lab_id) {
 		$sql = "SELECT _id, title, labTime FROM labs WHERE _id=:lab_id";
 		$stmt = $db_conn->prepare($sql);
-		$stmt->bindParam(':user_id', $user_id);
+		$stmt->bindParam(':lab_id', $lab_id);
 		if (!$stmt->execute()) {
 			return array('response' => $stmt->errorInfo(), 'lab' => '');
 		} else {
@@ -122,6 +122,7 @@
 			} else {
 				return array('response' => 'NoLabExistsError', 'lab' => '');
 			}
+		}
 	}
 
 	function getQualifiedLabs($db_conn, $user_id) {

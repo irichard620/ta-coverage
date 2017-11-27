@@ -105,6 +105,9 @@ function editUser() {
     var response = data.response;
     if (response.includes("Success")) {
 			alert("Account details updated!");
+			localStorage.setItem('name', name);
+			localStorage.setItem('email', email);
+			localStorage.setItem('phone', phone);
     } else {
       alert("Error");
     }

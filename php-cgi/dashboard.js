@@ -7,6 +7,15 @@ function initDashboard() {
 		$("p").text(name);
 	}
 
+	// Retrieve user info from local storage
+	var name = localStorage.getItem('name');
+	var email = localStorage.getItem('email');
+	var phone = localStorage.getItem('phone');
+
+	$('input[name="Name"]').val(name);
+	$('input[name="Email"]').val(email);
+	$('input[name="Phone"]').val(phone);
+
 	// Retrieve qualified labs for this user
   var request = $.ajax({
     url: 'php-cgi/labs.php?user_id=' + userId + '&type=qualified',

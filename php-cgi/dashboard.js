@@ -96,9 +96,10 @@ function editUser() {
 	var phone = document.getElementById('phone').value;
 
 	var request = $.ajax({
-		url: 'php-cgi/users.php?_id=' + _id + '&name=' + name + '&email=' + email + '&phone=' + phone,
+		url: 'php-cgi/users.php?',
 		type: 'put',
 		dataType: "json",
+		data: {_id: _id, name: name, email: email, phone: phone}
 	});
 
 	request.done(function (data, textStatus, jqxhr) {

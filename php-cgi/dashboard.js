@@ -70,7 +70,7 @@ function initDashboard() {
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += separatorString;
         htmlString += ("<div class='time'>" + labs[i].labTime + "</div>");
-		htmlString += ("<button onClick=goToLabDashboard('" + labs[i]._id + "');>MORE</button>");
+				htmlString += ("<button onClick=goToLabDashboard('" + labs[i]._id + "');>MORE</button>");
         htmlString += "</div></li>";
 
         //add html to list

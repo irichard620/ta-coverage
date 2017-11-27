@@ -12,9 +12,9 @@ function initDashboard() {
 	var email = localStorage.getItem('email');
 	var phone = localStorage.getItem('phone');
 
-	$('input[name="Name"]').val(name);
-	$('input[name="Email"]').val(email);
-	$('input[name="Phone"]').val(phone);
+	document.getElementById('name').value = name;
+	document.getElementById('email').value = email;
+	document.getElementById('phone').value = phone;
 
 	// Retrieve qualified labs for this user
   var request = $.ajax({
@@ -91,9 +91,9 @@ function initDashboard() {
 function editUser() {
 	var _id = localStorage.getItem('_id');
 
-	var name = document.getElementByName('name').value;
-	var email = document.getElementByName('email').value;
-	var phone = document.getElementByName('phone').value;
+	var name = document.getElementById('name').value;
+	var email = document.getElementById('email').value;
+	var phone = document.getElementById('phone').value;
 
 	var request = $.ajax({
 		url: 'php-cgi/users.php?_id=' + _id + '&name=' + name + '&email=' + email + '&phone=' + phone,

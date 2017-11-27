@@ -11,16 +11,19 @@
     <div>
       <button onclick="location.href='dashboard.html';" type="submit">BACK TO DASHBOARD</button>
     </div>
-  </div>
-  <div id="labInfo" class="subContainer">
-		<h1>Lab Info</h1>
-		<h2 id="labTitle">Title:</h>
-		<h2 id="labTime">Time:</h>
-  </div>
-  <div id="qualifiedTas">
-		<h1>Available TAs</h2>
-    		<ul style="padding-top: 10px;" class="rolldown-list myList">
-    		</ul>
+    <div id="accountInfo" class="subContainer">
+      <h1 style="color: black;">Lab Info</h1>
+      <form>
+        Title: <input class="accountField" type="text" id="title" value=""><br>
+        Time: <input class="accountField" type="text" id="time" value=""><br>
+        <button type="button" class="saveButton">SAVE</button>
+      </form>
+    </div>
+    <div id="qualifiedTas">
+      <h1>Available TAs</h2>
+      <ul style="padding-top: 10px;" class="rolldown-list myList">
+      </ul>
+    </div>
   </div>
 </body>
 </html>

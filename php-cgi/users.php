@@ -44,7 +44,7 @@
 			echo json_encode(array('response' => 'MissingPhoneError'));
 		} else {
 			// All data present, edit
-			$sql = "UPDATE users SET name=:name AND email=:email AND phone=:phone WHERE _id=:_id";
+			$sql = "UPDATE users SET name=:name, email=:email, phone=:phone WHERE _id=:_id";
 			$stmt = $db_conn->prepare($sql);
 			$stmt->bindParam(':name', $name);
 			$stmt->bindParam(':email', $email);

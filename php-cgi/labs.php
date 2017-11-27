@@ -204,7 +204,7 @@
 					return array('response' => 'MissingLabTimeError');
 				} else {
 					// Edit section
-					$sql = "UPDATE labs SET title=:title AND labTime=:labTime WHERE _id=:lab_id";
+					$sql = "UPDATE labs SET title=:title, labTime=:labTime WHERE _id=:lab_id";
 					$stmt = $db_conn->prepare($sql);
 					$stmt->bindParam(':title', $title);
 					$stmt->bindParam(':labTime', $labTime);

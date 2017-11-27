@@ -16,8 +16,8 @@ function initLabDashboard() {
     var response = data.response;
     var lab = data.lab;
     if (response.includes("Success")) {
-      document.getElementById('labTitle').innerHTML = 'Title: ' + lab.title;
-      document.getElementById('labTime').innerHTML = 'Time: ' + lab.labTime;
+      document.getElementById('title').value = 'Title: ' + lab.title;
+      document.getElementById('labTime').value = 'Time: ' + lab.labTime;
     } else {
         alert("Error");
     }
@@ -64,5 +64,26 @@ function initLabDashboard() {
 
 function editLab() {
   var user_id = localStorage.getItem('_id');
+  var lab_id = localStorage.getItem('lab_id');
+  var title = document.getElementById('title').value;
+  var labTime = document.getElementById('labTime').value;
 
+  var request = $.ajax({
+    url: 'php-cgi/labs.php',
+    type: 'put',
+    dataType: "json",
+    data: {user_id: user_id, lab_id: lab_id, title: title, labTime: labTime}
+  });
+
+  request.done(function (data, textStatus, jqxhr) {
+    var response = data.response;
+    if (response.includes("Success")) {
+      alert("Lab details successfully updated!");
+    } else {
+      alert("Error");
+    }
+  });
+  request.fail(function() {
+    alert("Failed");
+  });
 }

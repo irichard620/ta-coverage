@@ -50,6 +50,7 @@
 }
 
 .saveButton {
+    padding-top: 10px;
     background-color: #B30738;
     border: none;
     color: white;

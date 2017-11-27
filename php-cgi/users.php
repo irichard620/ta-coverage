@@ -31,6 +31,33 @@
 		}
 	}
 
+	function editUser($db_conn, $_id, $_PUT) {
+		$name = (isset($_PUT['name']) ? $_PUT['name'] : null);
+		$email = (isset($_PUT['email']) ? $_PUT['email'] : null);
+		$phone = (isset($_PUT['phone']) ? $_PUT['phone'] : null);
+
+		if (empty($name)) {
+			echo json_encode(array('response' => 'MissingNameError'));
+		} else if (empty($email)) {
+			echo json_encode(array('response' => 'MissingEmailError'));
+		} else if (empty($phone)) {
+			echo json_encode(array('response' => 'MissingPhoneError'));
+		} else {
+			// All data present, edit
+			$sql = "UPDATE users SET name=:name AND email=:email AND phone=:phone WHERE _id=:_id";
+			$stmt = $db_conn->prepare($sql);
+			$stmt->bindParam(':name', $name);
+			$stmt->bindParam(':email', $email);
+			$stmt->bindParam(':phone', $phone);
+			$stmt->bindParam(':_id', $_id);
+			if (!$stmt->execute()) {
+				return array('response' => $stmt->errorInfo());
+			} else {
+				return array('response' => 'Success');
+			}
+		}
+	}
+
 	if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		$type = (isset($_GET['type']) ? $_GET['type'] : null);
 
@@ -48,6 +75,21 @@
 				$output = getQualifiedTAs($db_conn, $lab_id);
 				echo json_encode($output);
 			}
+		}
+	} else if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+		// Get input vars
+		parse_str(file_get_contents('php://input'), $_PUT);
+
+		// Grab user and lab ID
+		$_id = (isset($_PUT['_id']) ? $_PUT['_id'] : null);
+
+		if (empty($user_id)) {
+			echo json_encode(array('response' => 'MissingUserIdError'));
+		} else if (empty($lab_id)) {
+			echo json_encode(array('response' => 'MissingLabIdError'));
+		} else {
+			$output = editUser($db_conn, $_id, $_PUT);
+			echo json_encode($output);
 		}
 	}
 

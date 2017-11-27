@@ -61,3 +61,8 @@ function initLabDashboard() {
     alert("Failed");
   });
 }
+
+function editLab() {
+  var user_id = localStorage.getItem('_id');
+
+}

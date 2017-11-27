@@ -88,6 +88,32 @@ function initDashboard() {
   });
 }
 
+function editUser() {
+	var _id = localStorage.getItem('_id');
+
+	var name = document.getElementByName('name').value;
+	var email = document.getElementByName('email').value;
+	var phone = document.getElementByName('phone').value;
+
+	var request = $.ajax({
+		url: 'php-cgi/users.php?_id=' + _id + '&name=' + name + '&email=' + email + '&phone=' + phone,
+		type: 'PUT',
+		dataType: "json",
+	});
+
+	request.done(function (data, textStatus, jqxhr) {
+    var response = data.response;
+    if (response.includes("Success")) {
+			alert("Account details updated!");
+    } else {
+      alert("Error");
+    }
+  });
+  request.fail(function() {
+    alert("Failed");
+  });
+}
+
 function goToLabDashboard(lab_id) {
 	localStorage.setItem('lab_id', lab_id);
 	window.location.href = "labdashboard.html";

@@ -1,13 +1,17 @@
 <?php
 	require_once "config.php";
 
+	// All content types are json
 	header("Content-Type: application/json");
 
+	// The function below will create a new lab instance
 	function createLab($db_conn, $user_id) {
+		// Must pass in title, labTime, validThrough date
 		$title = (isset($_POST['title']) ? $_POST['title'] : null);
 		$labTime = (isset($_POST['labTime']) ? $_POST['labTime'] : null);
 		$validThrough = (isset($_POST['validThrough']) ? $_POST['validThrough'] : null);
 
+		// Check if empty
 		if (empty($title)) {
 			return array('response' => 'MissingTitleError', 'lab' => '');
 		} else if (empty($labTime)) {
@@ -50,6 +54,7 @@
 		}
 	}
 
+	// Add a qualified lab section to this user's profile
 	function addQualifiedLab($db_conn, $user_id) {
 		// Need to pass in lab_id
 		$lab_id = (isset($_POST['lab_id']) ? $_POST['lab_id'] : null);
@@ -58,6 +63,7 @@
 			return "MissingLabIdError";
 		}
 
+		// Insert into MySQL
 		$sql = "INSERT INTO userlabqualified (user_id, lab_id) VALUES (:user_id, :lab_id)";
 		$stmt = $db_conn->prepare($sql);
 		$stmt->bindParam(':user_id', $user_id);
@@ -69,6 +75,7 @@
 		}
 	}
 
+	// Get all labs, and mark which ones this user is qualified for
 	function getAllLabs($db_conn, $user_id) {
 		// First, get all qualified labs from relationship
 		$sql = "SELECT lab_id FROM userlabqualified WHERE user_id=:user_id";
@@ -105,11 +112,11 @@
 				}
 
 				return array('response' => 'Success', 'labs' => $allLabs);
-
 			}
 		}
 	}
 
+	// Get a lab section data by lab ID
 	function getLabById($db_conn, $lab_id) {
 		$sql = "SELECT _id, title, labTime FROM labs WHERE _id=:lab_id";
 		$stmt = $db_conn->prepare($sql);
@@ -125,6 +132,7 @@
 		}
 	}
 
+	// Get qualified labs for specific user
 	function getQualifiedLabs($db_conn, $user_id) {
 		$sql = "SELECT labs._id, labs.title, labs.labTime FROM userlabqualified INNER JOIN labs ON labs._id=userlabqualified.lab_id WHERE userlabqualified.user_id=:user_id ";
 		$stmt = $db_conn->prepare($sql);
@@ -143,6 +151,7 @@
 		}
 	}
 
+	// Get managed labs for a specific user
 	function getManagedLabs($db_conn, $user_id) {
 		$sql = "SELECT labs._id, labs.title, labs.labTime FROM userlabmanaging INNER JOIN labs ON labs._id=userlabmanaging.lab_id WHERE userlabmanaging.user_id=:user_id ";
 		$stmt = $db_conn->prepare($sql);
@@ -161,6 +170,7 @@
 		}
 	}
 
+	// Remove a qualified lab for specific user
 	function removeQualifiedLab($db_conn, $user_id, $lab_id) {
 		$sql = "DELETE FROM userlabqualified WHERE user_id=:user_id AND lab_id=:lab_id";
 		$stmt = $db_conn->prepare($sql);
@@ -173,6 +183,45 @@
 		}
 	}
 
+	function editLab($db_conn, $user_id, $lab_id, $_PUT) {
+		// First, check if user manages this labs
+		$sql = "SELECT user_id FROM userlabmanaging WHERE user_id=:user_id AND lab_id=:lab_id";
+		$stmt = $db_conn->prepare($sql);
+		$stmt->bindParam(':user_id', $user_id);
+		$stmt->bindParam(':lab_id', $lab_id);
+		if (!$stmt->execute()) {
+			return array('response' => $stmt->errorInfo());
+		} else {
+			if ($row = $stmt->fetch()) {
+				// User does manage this Section
+				$title = (isset($_PUT['title']) ? $_PUT['title'] : null);
+				$labTime = (isset($_PUT['labTime']) ? $_PUT['labTime'] : null);
+
+				// Check if empty
+				if (empty($title)) {
+					return array('response' => 'MissingTitleError');
+				} else if (empty($labTime)) {
+					return array('response' => 'MissingLabTimeError');
+				} else {
+					// Edit section
+					$sql = "UPDATE labs SET title=:title AND labTime=:labTime WHERE _id=:lab_id";
+					$stmt = $db_conn->prepare($sql);
+					$stmt->bindParam(':title', $title);
+					$stmt->bindParam(':labTime', $labTime);
+					$stmt->bindParam(':lab_id', $lab_id);
+					if (!$stmt->execute()) {
+						return array('response' => $stmt->errorInfo());
+					} else {
+						return array('response' => 'Success');
+					}
+				}
+			} else {
+				return array('response' => 'NotManagedError');
+			}
+		}
+	}
+
+	// Inspect different requests
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		// Get type, user_id
 		$type = (isset($_POST['type']) ? $_POST['type'] : null);
@@ -217,15 +266,32 @@
 				}
 				$output = getLabById($db_conn, $lab_id);
 				echo json_encode($output);
+
 			}
+		}
+	} else if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+		// A put request implies that user is trying to edit lab section
+
+		// Get input vars
+		parse_str(file_get_contents('php://input'), $_PUT);
+
+		// Grab user and lab ID
+		$user_id = (isset($_DELETE['user_id']) ? $_DELETE['user_id'] : null);
+		$lab_id = (isset($_DELETE['lab_id']) ? $_DELETE['lab_id'] : null);
+
+		if (empty($user_id)) {
+			echo json_encode(array('response' => 'MissingUserIdError'));
+		} else if (empty($lab_id)) {
+			echo json_encode(array('response' => 'MissingLabIdError'));
+		} else {
+			$output = editLab($db_conn, $user_id, $lab_id, $_PUT);
+			echo json_encode($output);
 		}
 
 	} else if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 		parse_str(file_get_contents('php://input'), $_DELETE);
 
-		// Remove relationship to lab
 		$user_id = (isset($_DELETE['user_id']) ? $_DELETE['user_id'] : null);
-
 		$lab_id = (isset($_DELETE['lab_id']) ? $_DELETE['lab_id'] : null);
 
 		if (empty($user_id)) {

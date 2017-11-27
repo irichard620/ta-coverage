@@ -16,7 +16,7 @@ function login() {
 		localStorage.setItem('phone', user.phone);
     	window.location.href = "dashboard.html";
     } else {
-		alert(response);
+		    alert(response);
     }
   });
   request.fail(function() {

@@ -97,7 +97,7 @@ function editUser() {
 
 	var request = $.ajax({
 		url: 'php-cgi/users.php?_id=' + _id + '&name=' + name + '&email=' + email + '&phone=' + phone,
-		type: 'PUT',
+		type: 'put',
 		dataType: "json",
 	});
 
@@ -109,7 +109,7 @@ function editUser() {
 			localStorage.setItem('email', email);
 			localStorage.setItem('phone', phone);
     } else {
-      alert("Error");
+      alert(response);
     }
   });
   request.fail(function() {

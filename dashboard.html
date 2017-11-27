@@ -21,7 +21,7 @@
       <button class="allButton" onclick="location.href='alltas.html';" type="submit">All TAs</button>
     </div>
   </div>
-  <div id="accountInfo" class="accountInfo">
+  <div id="accountInfo" class="subContainer">
     <form>
       Name: <input class="accountField" type="text" id="name" value=""><br>
       Email: <input class="accountField" type="text" id="email" value=""><br>
@@ -29,12 +29,12 @@
       <button type="button" class="saveButton" onCLick="editUser();">SAVE</button>
     </form>
   </div>
-  <div id="managedLabs">
+  <div id="managedLabs" class="subContainer">
     <h1>Labs Managed</h1>
     <ul class="rolldown-list myList" id="managedLabsList">
     </ul>
   </div>
-  <div style="padding-top: 200px;" id="qualifiedLabs">
+  <div id="qualifiedLabs" class="subContainer">
     <h1>Labs Available For</h1>
     <button class="allButton" onclick="location.href='alllabs.html';" type="submit">Edit Availability</button>
     <ul style="padding-top: 10px;" class="rolldown-list myList">

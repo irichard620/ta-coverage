@@ -83,10 +83,8 @@
 		// Grab user and lab ID
 		$_id = (isset($_PUT['_id']) ? $_PUT['_id'] : null);
 
-		if (empty($user_id)) {
+		if (empty($_id)) {
 			echo json_encode(array('response' => 'MissingUserIdError'));
-		} else if (empty($lab_id)) {
-			echo json_encode(array('response' => 'MissingLabIdError'));
 		} else {
 			$output = editUser($db_conn, $_id, $_PUT);
 			echo json_encode($output);

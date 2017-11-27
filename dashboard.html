@@ -11,31 +11,26 @@
 
 <BODY onLoad="initDashboard();">
   <div class="container">
-    <div class="left">
-      <button class="allButton" onclick="location.href='alltas.html';" type="submit">All TAs</button>
+    <button class="allButton" onclick="location.href='alltas.html';" type="submit">All TAs</button>
+    <button class="logoutButton" onclick="location.href='login.html';" type="submit">Logout</button>
+    <div id="accountInfo" class="subContainer">
+      <form>
+        Name: <input class="accountField" type="text" id="name" value=""><br>
+        Email: <input class="accountField" type="text" id="email" value=""><br>
+        Phone: <input class="accountField" type="text" id="phone" value=""><br>
+        <button type="button" class="saveButton" onCLick="editUser();">SAVE</button>
+      </form>
     </div>
-    <div class="right">
-      <button class="logoutButton" onclick="location.href='login.html';" type="submit">Logout</button>
+    <div id="managedLabs">
+      <h1>Labs Managed</h1>
+      <ul class="rolldown-list myList" id="managedLabsList">
+      </ul>
     </div>
-  </div>
-  <div id="accountInfo" class="subContainer">
-    <form>
-      Name: <input class="accountField" type="text" id="name" value=""><br>
-      Email: <input class="accountField" type="text" id="email" value=""><br>
-      Phone: <input class="accountField" type="text" id="phone" value=""><br>
-      <button type="button" class="saveButton" onCLick="editUser();">SAVE</button>
-    </form>
-  </div>
-  <div id="managedLabs">
-    <h1>Labs Managed</h1>
-    <ul class="rolldown-list myList" id="managedLabsList">
-    </ul>
-  </div>
-  <div style="padding-top: 200px;" id="qualifiedLabs">
-    <h1>Labs Available For</h1>
-    <button class="allButton" onclick="location.href='alllabs.html';" type="submit">Edit Availability</button>
-    <ul style="padding-top: 10px;" class="rolldown-list myList">
-    </ul>
-  </div>
+    <div style="padding-top: 200px;" id="qualifiedLabs">
+      <h1>Labs Available For</h1>
+      <button class="allButton" onclick="location.href='alllabs.html';" type="submit">Edit Availability</button>
+      <ul style="padding-top: 10px;" class="rolldown-list myList">
+      </ul>
+    </div>
 </BODY>
 </HTML>

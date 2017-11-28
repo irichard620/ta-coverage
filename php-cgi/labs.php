@@ -334,7 +334,8 @@
 				$output = addQualifiedLab($db_conn, $user_id);
 				echo json_encode($output);
 			} else if ($type == "share") {
-				$output = addLabManager($db_conn, $user_id, $_POST);
+				$output = addLabManager($db_conn, $user_id);
+				echo json_encode($output);
 			}
 		}
 	} else if ($_SERVER["REQUEST_METHOD"] == "GET") {

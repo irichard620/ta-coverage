@@ -16,8 +16,8 @@ function initLabDashboard() {
     var response = data.response;
     var lab = data.lab;
     if (response.includes("Success")) {
-      document.getElementById('title').value = 'Title: ' + lab.title;
-      document.getElementById('labTime').value = 'Time: ' + lab.labTime;
+      document.getElementById('title').value = lab.title;
+      document.getElementById('labTime').value = lab.labTime;
     } else {
         alert("Error");
     }
@@ -80,7 +80,7 @@ function editLab() {
     if (response.includes("Success")) {
       alert("Lab details successfully updated!");
     } else {
-      alert("Error");
+      alert(response);
     }
   });
   request.fail(function() {

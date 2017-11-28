@@ -250,6 +250,7 @@
 				// User does manage this Section
 				$title = (isset($_PUT['title']) ? $_PUT['title'] : null);
 				$labTime = (isset($_PUT['labTime']) ? $_PUT['labTime'] : null);
+				$searchString = strtolower($title) . strtolower($labTime);
 
 				// Check if empty
 				if (empty($title)) {
@@ -258,11 +259,12 @@
 					return array('response' => 'MissingLabTimeError');
 				} else {
 					// Edit section
-					$sql = "UPDATE labs SET title=:title, labTime=:labTime WHERE _id=:lab_id";
+					$sql = "UPDATE labs SET title=:title, labTime=:labTime, searchString=:searchString WHERE _id=:lab_id";
 					$stmt = $db_conn->prepare($sql);
 					$stmt->bindParam(':title', $title);
 					$stmt->bindParam(':labTime', $labTime);
 					$stmt->bindParam(':lab_id', $lab_id);
+					$stmt->bindParam(':searchString', $searchString);
 					if (!$stmt->execute()) {
 						return array('response' => $stmt->errorInfo());
 					} else {
@@ -332,8 +334,8 @@
 		parse_str(file_get_contents('php://input'), $_PUT);
 
 		// Grab user and lab ID
-		$user_id = (isset($_DELETE['user_id']) ? $_DELETE['user_id'] : null);
-		$lab_id = (isset($_DELETE['lab_id']) ? $_DELETE['lab_id'] : null);
+		$user_id = (isset($_PUT['user_id']) ? $_PUT['user_id'] : null);
+		$lab_id = (isset($_PUT['lab_id']) ? $_PUT['lab_id'] : null);
 
 		if (empty($user_id)) {
 			echo json_encode(array('response' => 'MissingUserIdError'));

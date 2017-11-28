@@ -21,9 +21,10 @@ function initLabDashboard() {
 
       // Set start time
       var meridianStart = lab.startTime.slice(-2);
-      var timesplitStart = lab.startTime.split(':');
-      var hoursStart = timesplitStart[0];
-      var minutesStart = timesplitStart[1];
+      var startTime = lab.startTime.slice(0, -2);
+      var timesplitStart = startTime.split(':');
+      var hoursStart = parseInt(timesplitStart[0]);
+      var minutesStart = parseInt(timesplitStart[1]);
       if (meridianStart == "PM") {
         if (hoursStart != 12) {
           hoursStart += 12;
@@ -33,13 +34,20 @@ function initLabDashboard() {
           hoursStart = 0;
         }
       }
-      document.getElementById('startTime').value = hoursStart + ":" + minutesStart;
+      hoursString = "";
+      if (hoursStart < 10) { hoursString = "0" + hoursStart; }
+      else { hoursString = hoursStart; }
+      minutesString = "";
+      if (minutesStart < 10) { minutesString = "0" + minutesStart; }
+      else { minutesString = minutesStart; }
+      document.getElementById('startTime').value = hoursString + ":" + minutesString;
 
       // Set end time
       var meridianEnd = lab.endTime.slice(-2);
-      var timesplitEnd = lab.endTime.split(':');
-      var hoursEnd = timesplitEnd[0];
-      var minutesEnd = timesplitEnd[1];
+      var endTime = lab.endTime.slice(0, -2);
+      var timesplitEnd = endTime.split(':');
+      var hoursEnd = parseInt(timesplitEnd[0]);
+      var minutesEnd = parseInt(timesplitEnd[1]);
       if (meridianEnd == "PM") {
         if (hoursEnd != 12) {
           hoursEnd += 12;
@@ -47,9 +55,15 @@ function initLabDashboard() {
       } else if (meridianEnd == "AM") {
         if (hoursEnd == 12) {
           hoursEnd = 0;
-        }
+        } 
       }
-      document.getElementById('endTime').value = hoursEnd + ":" + minutesEnd;
+      hoursString = "";
+      if (hoursEnd < 10) { hoursString = "0" + hoursEnd; }
+      else { hoursString = hoursEnd; }
+      minutesString = "";
+      if (minutesEnd < 10) { minutesString = "0" + minutesEnd; }
+      else { minutesString = minutesEnd; }
+      document.getElementById('endTime').value = hoursString + ":" + minutesString;
     } else {
         alert("Error");
     }

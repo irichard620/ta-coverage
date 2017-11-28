@@ -19,7 +19,7 @@ function createListOfLabs() {
         htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += ("<div class='separator'> | </div>");
-        hhtmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
+        htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
 				labs[i].startTime + "-" + labs[i].endTime + "</div>");
 				htmlString += ("<div class='separator'></div>");
         htmlString += ("<input id='" + labs[i]._id + "' class='checkbox' type='checkbox'>");

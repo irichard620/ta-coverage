@@ -11,7 +11,7 @@
       <button onclick="location.href='dashboard.html';" type="submit">BACK TO DASHBOARD</button>
     </div>
     <div id="labInfo" class="subContainer">
-      <h2 style="color: black;">Lab Info</h2>
+      <h2>Lab Info</h2>
       <form>
         Title: <input class="accountField" type="text" id="title" size="20" value="">
         <br></br>
@@ -26,13 +26,13 @@
         Start Time: <input type="time" id="startTime" required>
         <br></br>
         End Time: <input type="time" id="endTime" required>
-	<br></br>
-        <button type="button" class="saveButton" onClick="editLab();">SAVE</button>
+	      <br></br>
+        <button type="button" class="whiteButton" onClick="editLab();">SAVE</button>
       </form>
     </div>
     <div id="qualifiedTas">
       <h1>Available TAs</h2>
-      <ul style="padding-top: 10px;" class="rolldown-list myList">
+      <ul class="rolldown-list myList" id="availableTasList">
       </ul>
     </div>
   </div>

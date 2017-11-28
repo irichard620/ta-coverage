@@ -2,10 +2,7 @@ function initDashboard() {
 	var userId = localStorage.getItem('_id');
 	if (userId == null) {
 		window.location.href = 'login.html';
-	} else {
-		var name = localStorage.getItem('name');
-		$("p").text(name);
-	}
+	} 
 
 	// Retrieve user info from local storage
 	var name = localStorage.getItem('name');
@@ -34,7 +31,8 @@ function initDashboard() {
         htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += separatorString;
-        htmlString += ("<div class='time'>" + labs[i].labTime + "</div>");
+				htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
+				labs[i].startTime + "-" + labs[i].endTime + "</div>");
         htmlString += "</div></li>";
 
         //add html to list
@@ -69,7 +67,8 @@ function initDashboard() {
         htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
         htmlString += separatorString;
-        htmlString += ("<div class='time'>" + labs[i].labTime + "</div>");
+        htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
+				labs[i].startTime + "-" + labs[i].endTime + "</div>");
 				htmlString += ("<button onClick=goToLabDashboard('" + labs[i]._id + "');>MORE</button>");
         htmlString += "</div></li>";
 

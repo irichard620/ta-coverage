@@ -14,10 +14,22 @@
     <div id="labInfo" class="subContainer">
       <h2 style="color: black;">Lab Info</h2>
       <form>
-        Title: <input class="accountField" type="text" id="title" size="30" value="">
+        Title: <input class="accountField" type="text" id="title" size="20" value="">
         <br></br>
-        Time: <input class="accountField" type="text" id="labTime" size="30" value="">
+        Day of Week: <select id="daySelect">
+          <option value="monday" selected>Monday</option>
+          <option value="tuesday">Tuesday</option>
+          <option value="wednesday">Wednesday</option>
+          <option value="thursday">Thursday</option>
+          <option value="friday">Friday</option>
+        </select>
         <br></br>
+        Start Time: <input type="time" id="startTime" required>
+        <br></br>
+        End Time: <input type="time" id="endTime" required>
+	      <br></br>
+	      Lab Ending Date: <input type="date" id="validThrough" required>
+	      <br></br>
         <button type="button" class="saveButton" onClick="editLab();">SAVE</button>
       </form>
     </div>

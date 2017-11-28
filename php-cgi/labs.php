@@ -8,14 +8,20 @@
 	function createLab($db_conn, $user_id) {
 		// Must pass in title, labTime, validThrough date
 		$title = (isset($_POST['title']) ? $_POST['title'] : null);
-		$labTime = (isset($_POST['labTime']) ? $_POST['labTime'] : null);
+		$dayOfWeek = (isset($_POST['dayOfWeek']) ? $_POST['dayOfWeek'] : null);
+		$startTime = (isset($_POST['startTime']) ? $_POST['startTime'] : null);
+		$endTime = (isset($_POST['endTime']) ? $_POST['endTime'] : null);
 		$validThrough = (isset($_POST['validThrough']) ? $_POST['validThrough'] : null);
 
 		// Check if empty
 		if (empty($title)) {
 			return array('response' => 'MissingTitleError', 'lab' => '');
-		} else if (empty($labTime)) {
+		} else if (empty($dayOfWeek)) {
 			return array('response' => 'MissingLabTimeError', 'lab' => '');
+		} else if (empty($startTime)) {
+			return array('response' => 'MissingStartTimeError', 'lab' => '');
+		} else if (empty($endTime)) {
+			return array('response' => 'MissingEndTimeError', 'lab' => '');
 		} else if (empty($validThrough)) {
 			return array('response' => 'MissingValidThroughError', 'lab' => '');
 		}
@@ -24,23 +30,30 @@
 		$_id = uniqid();
 
 		// Next, generate search string
-		$searchString = strtolower($title) . strtolower($labTime);
+		$searchString = strtolower($title) . " " . strtolower($dayOfWeek) . " " .
+		strtolower($startTime) . " " . strtolower($endTime);
 
 		// Now, create sql statement
-		$sql = "INSERT INTO labs (_id, title, labTime, validThrough, searchString) VALUES (:_id, :title, :labTime, :validThrough, :searchString)";
+		$sql = "INSERT INTO labs (_id, title, dayOfWeek, startTime, endTime, validThrough,
+			searchString) VALUES (:_id, :title, :dayOfWeek, :startTime, :endTime, :validThrough, :searchString)";
 		$stmt = $db_conn->prepare($sql);
 		$stmt->bindParam(':_id', $_id);
 		$stmt->bindParam(':title', $title);
-		$stmt->bindParam(':labTime', $labTime);
+		$stmt->bindParam(':dayOfWeek', $dayOfWeek);
+		$stmt->bindParam(':startTime', $startTime);
+		$stmt->bindParam(':endTime', $endTime);
 		$stmt->bindParam(':validThrough', $validThrough);
 		$stmt->bindParam(':searchString', $searchString);
 		if ($stmt->execute()) {
 			$stmt->closeCursor();
-			$createdLab = array('_id' => $_id, 'title' => $title, 'labTime' => $labTime, 'validThrough' => $validThrough);
+			$createdLab = array('_id' => $_id, 'title' => $title, 'dayOfWeek' => $dayOfWeek,
+			'startTime' => $startTime, 'endTime' => $endTime, 'validThrough' => $validThrough);
 
 			// Create relationship in management table
-			$sql2 = "INSERT INTO userlabmanaging (user_id, lab_id) VALUES (:user_id, :lab_id)";
+			$_id = uniqid();
+			$sql2 = "INSERT INTO userlabmanaging (_id, user_id, lab_id) VALUES (:_id, :user_id, :lab_id)";
 			$stmt2 = $db_conn->prepare($sql2);
+			$stmt2->bindParam(':_id', $_id);
 			$stmt2->bindParam(':user_id', $user_id);
 			$stmt2->bindParam(':lab_id', $_id);
 
@@ -50,7 +63,7 @@
 				return array('response' => $stmt2->errorInfo(), 'lab' => '');
 			}
 		} else {
-			return array('response' => 'DbError', 'lab' => '');
+			return array('response' => $stmt->errorInfo(), 'lab' => '');
 		}
 	}
 
@@ -64,8 +77,10 @@
 		}
 
 		// Insert into MySQL
-		$sql = "INSERT INTO userlabqualified (user_id, lab_id) VALUES (:user_id, :lab_id)";
+		$_id = uniqid();
+		$sql = "INSERT INTO userlabqualified (_id, user_id, lab_id) VALUES (:_id, :user_id, :lab_id)";
 		$stmt = $db_conn->prepare($sql);
+		$stmt->bindParam(':_id', $_id);
 		$stmt->bindParam(':user_id', $user_id);
 		$stmt->bindParam(':lab_id', $lab_id);
 		if (!$stmt->execute()) {
@@ -109,8 +124,11 @@
 							$invite_user_id = $row['_id'];
 
 							// Add user as manager
-							$sql = "INSERT INTO userlabmanaging (user_id, lab_id) VALUES (:user_id, :lab_id)";
+							$_id = uniqid();
+							$sql = "INSERT INTO userlabmanaging (_id, user_id, lab_id) VALUES
+							(:_id, :user_id, :lab_id)";
 							$stmt = $db_conn->prepare($sql);
+							$stmt->bindParam(':_id', $_id);
 							$stmt->bindParam(':user_id', $invite_user_id);
 							$stmt->bindParam(':lab_id', $lab_id);
 							if (!$stmt->execute()) {
@@ -143,7 +161,8 @@
 			$stmt->closeCursor();
 
 			// Now, get all labs
-			$sql2 = "SELECT _id, title, labTime FROM labs";
+			$sql2 = "SELECT _id, title, dayOfWeek, startTime, endTime FROM labs
+			WHERE validThrough >= CURDATE()";
 			$stmt2 = $db_conn->prepare($sql2);
 			if (!$stmt2->execute()) {
 				return array('response' => $stmt2->errorInfo(), 'labs' => '');
@@ -172,7 +191,7 @@
 
 	// Get a lab section data by lab ID
 	function getLabById($db_conn, $lab_id) {
-		$sql = "SELECT _id, title, labTime FROM labs WHERE _id=:lab_id";
+		$sql = "SELECT _id, title, dayOfWeek, startTime, endTime FROM labs WHERE _id=:lab_id";
 		$stmt = $db_conn->prepare($sql);
 		$stmt->bindParam(':lab_id', $lab_id);
 		if (!$stmt->execute()) {
@@ -188,7 +207,9 @@
 
 	// Get qualified labs for specific user
 	function getQualifiedLabs($db_conn, $user_id) {
-		$sql = "SELECT labs._id, labs.title, labs.labTime FROM userlabqualified INNER JOIN labs ON labs._id=userlabqualified.lab_id WHERE userlabqualified.user_id=:user_id ";
+		$sql = "SELECT labs._id, labs.title, labs.dayOfWeek, labs.startTime, labs.endTime
+		FROM userlabqualified INNER JOIN labs ON labs._id=userlabqualified.lab_id
+		WHERE userlabqualified.user_id=:user_id AND labs.validThrough >= CURDATE()";
 		$stmt = $db_conn->prepare($sql);
 		$stmt->bindParam(':user_id', $user_id);
 		if (!$stmt->execute()) {
@@ -207,7 +228,9 @@
 
 	// Get managed labs for a specific user
 	function getManagedLabs($db_conn, $user_id) {
-		$sql = "SELECT labs._id, labs.title, labs.labTime FROM userlabmanaging INNER JOIN labs ON labs._id=userlabmanaging.lab_id WHERE userlabmanaging.user_id=:user_id ";
+		$sql = "SELECT labs._id, labs.title, labs.dayOfWeek, labs.startTime, labs.endTime
+		FROM userlabmanaging INNER JOIN labs ON labs._id=userlabmanaging.lab_id
+		WHERE userlabmanaging.user_id=:user_id AND labs.validThrough >= CURDATE()";
 		$stmt = $db_conn->prepare($sql);
 		$stmt->bindParam(':user_id', $user_id);
 		if (!$stmt->execute()) {
@@ -249,20 +272,36 @@
 			if ($row = $stmt->fetch()) {
 				// User does manage this Section
 				$title = (isset($_PUT['title']) ? $_PUT['title'] : null);
-				$labTime = (isset($_PUT['labTime']) ? $_PUT['labTime'] : null);
+				$dayOfWeek = (isset($_PUT['dayOfWeek']) ? $_PUT['dayOfWeek'] : null);
 				$searchString = strtolower($title) . strtolower($labTime);
+
+				$title = (isset($_PUT['title']) ? $_PUT['title'] : null);
+				$dayOfWeek = (isset($_PUT['dayOfWeek']) ? $_PUT['dayOfWeek'] : null);
+				$startTime = (isset($_PUT['startTime']) ? $_PUT['startTime'] : null);
+				$endTime = (isset($_PUT['endTime']) ? $_PUT['endTime'] : null);
+
+				// Next, generate search string
+				$searchString = strtolower($title) . " " . strtolower($dayOfWeek) . " " .
+				strtolower($startTime) . " " . strtolower($endTime);
 
 				// Check if empty
 				if (empty($title)) {
-					return array('response' => 'MissingTitleError');
-				} else if (empty($labTime)) {
-					return array('response' => 'MissingLabTimeError');
+					return array('response' => 'MissingTitleError', 'lab' => '');
+				} else if (empty($dayOfWeek)) {
+					return array('response' => 'MissingLabTimeError', 'lab' => '');
+				} else if (empty($startTime)) {
+					return array('response' => 'MissingStartTimeError', 'lab' => '');
+				} else if (empty($endTime)) {
+					return array('response' => 'MissingEndTimeError', 'lab' => '');
 				} else {
 					// Edit section
-					$sql = "UPDATE labs SET title=:title, labTime=:labTime, searchString=:searchString WHERE _id=:lab_id";
+					$sql = "UPDATE labs SET title=:title, dayOfWeek=:dayOfWeek, startTime=:startTime,
+					endTime=:endTime, searchString=:searchString WHERE _id=:lab_id";
 					$stmt = $db_conn->prepare($sql);
 					$stmt->bindParam(':title', $title);
-					$stmt->bindParam(':labTime', $labTime);
+					$stmt->bindParam(':dayOfWeek', $dayOfWeek);
+					$stmt->bindParam(':startTime', $startTime);
+					$stmt->bindParam(':endTime', $endTime);
 					$stmt->bindParam(':lab_id', $lab_id);
 					$stmt->bindParam(':searchString', $searchString);
 					if (!$stmt->execute()) {

@@ -17,7 +17,9 @@ function initLabDashboard() {
     var lab = data.lab;
     if (response.includes("Success")) {
       document.getElementById('title').value = lab.title;
-      document.getElementById('labTime').value = lab.labTime;
+      document.getElementById('dayOfWeek').value = lab.dayOfWeek;
+      document.getElementById('startTime').value = lab.startTime;
+      document.getElementById('endTime').value = lab.endTime;
     } else {
         alert("Error");
     }
@@ -66,13 +68,16 @@ function editLab() {
   var user_id = localStorage.getItem('_id');
   var lab_id = localStorage.getItem('lab_id');
   var title = document.getElementById('title').value;
-  var labTime = document.getElementById('labTime').value;
+  var dayOfWeek = document.getElementById('dayOfWeek').value;
+  var startTime = document.getElementById('startTime').value;
+  var endTime = document.getElementById('endTime').value;
 
   var request = $.ajax({
     url: 'php-cgi/labs.php',
     type: 'put',
     dataType: "json",
-    data: {user_id: user_id, lab_id: lab_id, title: title, labTime: labTime}
+    data: {user_id: user_id, lab_id: lab_id, title: title, dayOfWeek: dayOfWeek,
+    startTime: startTime, endTime: endTime}
   });
 
   request.done(function (data, textStatus, jqxhr) {

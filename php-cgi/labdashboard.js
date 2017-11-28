@@ -4,14 +4,18 @@ function formatPhoneNumber(s) {
   return (!m) ? s : "(" + m[1] + ") " + m[2] + "-" + m[3];
 }
 
+// This function called when lab dashboard first loads
 function initLabDashboard() {
+  // Check if logged in
   var userId = localStorage.getItem('_id');
   if (userId == null) {
 		window.location.href = 'login.html';
   }
 
+  // Get lab ID from local storage
   var labId = localStorage.getItem('lab_id');
 
+  // Send first request to retrieve lab info
   var request = $.ajax({
     url: 'php-cgi/labs.php?user_id=' + userId + '&type=byId&lab_id=' + labId,
     type: 'get',
@@ -20,8 +24,11 @@ function initLabDashboard() {
 
   request.done(function (data, textStatus, jqxhr) {
     var response = data.response;
+
+    // Get lab from response
     var lab = data.lab;
     if (response.includes("Success")) {
+      // If success, get title, day of week
       document.getElementById('title').value = lab.title;
       document.getElementById('daySelect').value = lab.dayOfWeek;
 
@@ -78,6 +85,7 @@ function initLabDashboard() {
     alert("Failed");
   });
 
+  // Get qualified TAs for this lab section
   var request2 = $.ajax({
     url: 'php-cgi/users.php?lab_id=' + labId + '&type=qualified',
     type: 'get',
@@ -86,8 +94,11 @@ function initLabDashboard() {
 
   request2.done(function (data, textStatus, jqxhr) {
     var response = data.response;
+
+    // Get users from object
     var users = data.users;
     if (response.includes("Success")) {
+      // If success, inject 
       var htmlString = "";
       var separatorString = "<div class='separator'> | </div>";
 
@@ -170,6 +181,31 @@ function editLab() {
     var response = data.response;
     if (response.includes("Success")) {
       alert("Lab details successfully updated!");
+    } else {
+      alert(response);
+    }
+  });
+  request.fail(function() {
+    alert("Failed");
+  });
+}
+
+function shareLabSection() {
+  var user_id = localStorage.getItem('_id');
+  var lab_id = localStorage.getItem('lab_id');
+  var email = document.getElementById('email').value;
+
+  var request = $.ajax({
+    url: 'php-cgi/labs.php',
+    type: 'post',
+    dataType: "json",
+    data: {type: 'share', user_id: user_id, lab_id: lab_id, email: email}
+  });
+
+  request.done(function (data, textStatus, jqxhr) {
+    var response = data.response;
+    if (response.includes("Success")) {
+      alert("User " + email + " added as a manager of this lab section");
     } else {
       alert(response);
     }

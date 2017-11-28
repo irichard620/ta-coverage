@@ -69,9 +69,63 @@
 		$stmt->bindParam(':user_id', $user_id);
 		$stmt->bindParam(':lab_id', $lab_id);
 		if (!$stmt->execute()) {
-			return $stmt->errorInfo();
+			return array('response' => $stmt->errorInfo());
 		} else {
-			return "Success";
+			return array('response' => 'Success');
+		}
+	}
+
+	function addLabManager($db_conn, $user_id, $_POST) {
+		// Get lab ID of section
+		$lab_id = (isset($_POST['lab_id']) ? $_POST['lab_id'] : null);
+
+		// First, make sure we are a manager
+		$sql = "SELECT user_id FROM userlabmanaging WHERE user_id=:user_id AND lab_id=:lab_id";
+		$stmt = $db_conn->prepare($sql);
+		$stmt->bindParam(':user_id', $user_id);
+		$stmt->bindParam(':lab_id', $lab_id);
+		if (!$stmt->execute()) {
+			return array('response' => $stmt->errorInfo());
+		} else {
+			if ($row = $stmt->fetch()) {
+				// User does manage this Section
+				// Get email to share with
+				$email = (isset($_POST['email']) ? $_POST['email'] : null);
+
+				// Check if empty
+				if (empty($email)) {
+					return array('response' => 'MissingEmailError');
+				} else {
+					// Get user ID of user with this email
+					$sql = "SELECT _id FROM users where email=:email";
+					$stmt = $db_conn->prepare($sql);
+					$stmt->bindParam(':email', $email);
+					if (!$stmt->execute()) {
+						return array('response' => $stmt->errorInfo());
+					} else {
+						if ($row = $stmt->fetch()) {
+							// We found this user
+							// Get ID
+							$invite_user_id = $row['_id'];
+
+							// Add user as manager
+							$sql = "INSERT INTO userlabmanaging (user_id, lab_id) VALUES (:user_id, :lab_id)";
+							$stmt = $db_conn->prepare($sql);
+							$stmt->bindParam(':user_id', $invite_user_id);
+							$stmt->bindParam(':lab_id', $lab_id);
+							if (!$stmt->execute()) {
+								return array('response' => $stmt->errorInfo());
+							} else {
+								return array('response' => 'Success');
+							}
+						} else {
+							return array('response' => 'UserNotFoundError');
+						}
+					}
+				}
+			} else {
+				return array('response' => 'NotManagedError');
+			}
 		}
 	}
 
@@ -177,9 +231,9 @@
 		$stmt->bindParam(':user_id', $user_id);
 		$stmt->bindParam(':lab_id', $lab_id);
 		if (!$stmt->execute()) {
-			return "DbError";
+			return array('response' => $stmt->errorInfo());
 		} else {
-			return "Success";
+			return array('response' => 'Success');
 		}
 	}
 
@@ -237,7 +291,9 @@
 				echo json_encode($output);
 			} else if ($type == "edit") {
 				$output = addQualifiedLab($db_conn, $user_id);
-				echo json_encode(array('response' => $output));
+				echo json_encode($output);
+			} else if ($type == "share") {
+				$output = addLabManager($db_conn, $user_id, $_POST);
 			}
 		}
 	} else if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -300,7 +356,7 @@
 			echo json_encode(array('response' => 'MissingLabIdError'));
 		} else {
 			$output = removeQualifiedLab($db_conn, $user_id, $lab_id);
-			echo json_encode(array('response' => $output));
+			echo json_encode($output);
 		}
 	}
 

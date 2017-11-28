@@ -50,10 +50,10 @@
 			'startTime' => $startTime, 'endTime' => $endTime, 'validThrough' => $validThrough);
 
 			// Create relationship in management table
-			$_id = uniqid();
+			$_id2 = uniqid();
 			$sql2 = "INSERT INTO userlabmanaging (_id, user_id, lab_id) VALUES (:_id, :user_id, :lab_id)";
 			$stmt2 = $db_conn->prepare($sql2);
-			$stmt2->bindParam(':_id', $_id);
+			$stmt2->bindParam(':_id', $_id2);
 			$stmt2->bindParam(':user_id', $user_id);
 			$stmt2->bindParam(':lab_id', $_id);
 

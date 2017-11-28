@@ -17,7 +17,7 @@ function initLabDashboard() {
     var lab = data.lab;
     if (response.includes("Success")) {
       document.getElementById('title').value = lab.title;
-      document.getElementById('dayOfWeek').value = lab.dayOfWeek;
+      document.getElementById('daySelect').value = lab.dayOfWeek;
       document.getElementById('startTime').value = lab.startTime;
       document.getElementById('endTime').value = lab.endTime;
     } else {
@@ -68,7 +68,7 @@ function editLab() {
   var user_id = localStorage.getItem('_id');
   var lab_id = localStorage.getItem('lab_id');
   var title = document.getElementById('title').value;
-  var dayOfWeek = document.getElementById('dayOfWeek').value;
+  var dayOfWeek = document.getElementById('daySelect').value;
   var startTime = document.getElementById('startTime').value;
   var endTime = document.getElementById('endTime').value;
 

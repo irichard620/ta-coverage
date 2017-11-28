@@ -55,7 +55,7 @@ function initLabDashboard() {
       } else if (meridianEnd == "AM") {
         if (hoursEnd == 12) {
           hoursEnd = 0;
-        } 
+        }
       }
       hoursString = "";
       if (hoursEnd < 10) { hoursString = "0" + hoursEnd; }
@@ -83,15 +83,15 @@ function initLabDashboard() {
     var users = data.users;
     if (response.includes("Success")) {
       var htmlString = "";
-      var separatorString = "<div class='separator'> - </div>";
+      var separatorString = "<div class='separator'> | </div>";
 
       for (var i = 0; i < users.length; i++) {
         htmlString += "<li><div>";
-        htmlString += ("<div class='name'>" + users[i].name + "</div>");
+        htmlString += ("<div class='lab'>" + users[i].name + "</div>");
         htmlString += separatorString;
-        htmlString += ("<div class='email'>" + users[i].email + "</div>");
+        htmlString += ("<div class='time'>" + users[i].email + "</div>");
         htmlString += separatorString;
-        htmlString += ("<div class='phone'>" + users[i].phone + "</div>");
+        htmlString += ("<div class='lab'>" + users[i].phone + "</div>");
         htmlString += "</div></li>";
 
         //add html to list

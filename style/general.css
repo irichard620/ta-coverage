@@ -1,51 +1,104 @@
+.rolldown-list {
+  padding: 0;
+  margin: 0;
+}
+
+.rolldown-list li {
+  padding: 15px;
+  margin-bottom: 10px;
+  display: block;
+  background-color: #FFF;
+  text-align: center;
+}
+
+.lab {
+  display: inline-block;
+  font-size: 20px;
+  color: #B30738;
+  font-weight: bold;
+}
+
+.time {
+  display: inline-block;
+  font-size: 20px;
+  color: #0066ff;
+  font-weight: bold;
+}
+
+.labButton {
+  display: inline-block;
+  background-color: #B30738;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.separator {
+  display: inline-block;
+  font-size: 20px;
+  color: #595959;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .container {
   width: 100%;
 }
 
-.left {
-  float: left;
+.redButton {
+  background-color: #B30738;
+  border: none;
+  color: white;
+  padding: 12px 40px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.right {
-  float: right;
+.whiteButton {
+  background-color: #fff;
+  border: none;
+  color: black;
+  padding: 12px 40px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tasButton {
+  margin-left: 20px;
+  margin-top: 10px;
 }
 
 .logoutButton {
-  font-family: sans-serif;
-  text-transform: uppercase;
-  padding: 20px;
-  background: #fff;
-  border: 1;
-  font-size: 14px;
-  cursor: pointer;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  right: 28px;
+  top: 18px;
 }
 
-.allButton {
-  font-family: sans-serif;
-  padding: 20px;
-  background: #fff;
-  border: 1;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.info {
-  color: #fff;
-  font-size: 20px;
-  font-family: sans-serif;
-  padding-left: 20px;
+.editButton {
+  position: absolute;
+  right: 30px;
+  top: 26px;
 }
 
 .subContainer {
-  font-size: 20px;
   text-align: center;
-  border: 10px solid black;
+  border: 10px solid #595959;
   padding: 30px;
-  margin: 30px;
-  background-color: #fff;
+  margin: 20px;
+  background-color: #B30738;
+  position: relative;
 }
 
 .accountField {
@@ -53,25 +106,7 @@
   padding-bottom: 6px;
 }
 
-.saveButton {
-    background-color: #B30738;
-    border: none;
-    color: white;
-    padding: 12px 80px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-h1 {
-  text-align: center;
-  font-family: sans-serif;
-  color: #fff;
-  padding: 10px;
-}
-
-h2 {
+h1, h2 {
   text-align: center;
   font-family: sans-serif;
   color: #fff;
@@ -79,7 +114,7 @@ h2 {
 }
 
 body {
-  background: #B30738;
+  background: #fff;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

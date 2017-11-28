@@ -11,9 +11,10 @@
 
 <BODY onLoad="initDashboard();">
   <div class="container">
-    <button class="allButton" onclick="location.href='alltas.html';" type="submit">All TAs</button>
-    <button class="logoutButton" onclick="location.href='login.html';" type="submit">Logout</button>
+    <button class="redButton tasButton" onclick="location.href='alltas.html';" type="submit">All TAS</button>
+    <button class="redButton logoutButton" onclick="location.href='login.html';" type="submit">LOGOUT</button>
     <div id="accountInfo" class="subContainer">
+      <h2 class="black">PERSONAL INFORMATION</h2>
       <form>
         Name: <input class="accountField" type="text" id="name" size="30" value="">
         <br></br>
@@ -21,19 +22,60 @@
         <br></br>
         Phone: <input class="accountField" type="text" id="phone" size="30" value="">
         <br></br>
-        <button type="button" class="saveButton" onCLick="editUser();">SAVE</button>
+        <button type="button" class="whiteButton editButton" onCLick="editUser();">SAVE</button>
       </form>
     </div>
-    <div id="managedLabs">
-      <h1>Labs Managed</h1>
+    <div id="managedLabs" class="subContainer">
+      <h2 class="black">LABS YOU MANAGE</h2>
+      <button class="whiteButton editButton" onclick="location.href='createlab.html';" type="submit"> CREATE LAB</button>
       <ul class="rolldown-list myList" id="managedLabsList">
+        <li>
+          <div>
+            <div class='lab'> COEN 174L </div>
+            <div class='separator'> | </div>
+            <div class='time'> Monday - 2:15PM </div>
+            <div class='separator'></div>
+            <button class='labButton'>EDIT</button>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class='lab'> COEN 165L </div>
+            <div class='separator'> | </div>
+            <div class='time'> Monday - 5:00PM </div>
+            <div class='separator'></div>
+            <button class='labButton'>EDIT</button>
+          </div>
+        </li>
       </ul>
     </div>
-    <div style="padding-top: 200px;" id="qualifiedLabs">
-      <h1>Labs Available For</h1>
-      <button class="allButton" onclick="location.href='alllabs.html';" type="submit">Edit Availability</button>
-      <ul style="padding-top: 10px;" class="rolldown-list myList">
+    <div id="qualifiedLabs" class="subContainer">
+      <h2>LABS YOU ARE AVAILABLE FOR</h2>
+      <button class="whiteButton editButton" onclick="location.href='alllabs.html';" type="submit">EDIT AVAILABILITY</button>
+      <ul class="rolldown-list myList">
+        <li>
+          <div>
+            <div class='lab'> COEN 174L </div>
+            <div class='separator'> | </div>
+            <div class='time'> Monday - 2:15PM </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class='lab'> COEN 175L </div>
+            <div class='separator'> | </div>
+            <div class='time'> Wednesday - 5:00PM </div>
+          </div>
+        </li>
+         <li>
+          <div>
+            <div class='lab'> COEN 179L </div>
+            <div class='separator'> | </div>
+            <div class='time'> Monday - 9:15AM </div>
+          </div>
+        </li>
       </ul>
     </div>
+  </div>
 </BODY>
 </HTML>

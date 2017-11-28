@@ -75,7 +75,7 @@
 		}
 	}
 
-	function addLabManager($db_conn, $user_id, $_POST) {
+	function addLabManager($db_conn, $user_id) {
 		// Get lab ID of section
 		$lab_id = (isset($_POST['lab_id']) ? $_POST['lab_id'] : null);
 

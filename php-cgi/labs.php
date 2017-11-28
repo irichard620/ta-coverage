@@ -161,7 +161,7 @@
 			$stmt->closeCursor();
 
 			// Now, get all labs
-			$sql2 = "SELECT _id, title, dayOfWeek, startTime, endTime FROM labs
+			$sql2 = "SELECT _id, title, dayOfWeek, startTime, endTime, searchString FROM labs
 			WHERE validThrough >= CURDATE()";
 			$stmt2 = $db_conn->prepare($sql2);
 			if (!$stmt2->execute()) {

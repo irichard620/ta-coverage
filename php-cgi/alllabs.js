@@ -74,7 +74,7 @@ function updateAvailability(labId, qualified) {
 function updateResults() {
 	// Get search text
 	var searchText = document.getElementById("search").value.trim();
-
+	console.log(searchText);
 	// Empty list
 	$("#alllabs ul").empty();
 
@@ -94,11 +94,11 @@ function updateResults() {
 
 function getQueryResults(searchText) {
 	var labResults =[];
-	if (searchText = "") {
+	if (searchText ==  "") {
 		return labs;
 	} else {
 		for (var i = 0; i < labs.length; i++) {
-			if (labs[i].searchString.includes(searchText.toLower())) {
+			if (labs[i].searchString.includes(searchText.toLowerCase())) {
 				labResults.push(labs[i]);
 			}
 		}

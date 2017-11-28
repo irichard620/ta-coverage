@@ -14,14 +14,14 @@ function createListOfLabs() {
     var labs = data.labs;
     if (response.includes("Success")) {
       var htmlString = "";
-      var separatorString = "<div class='separator'> - </div>";
 
       for (var i = 0; i < labs.length; i++) {
         htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
-        htmlString += separatorString;
+        htmlString += ("<div class='separator'> | </div>");
         hhtmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
 				labs[i].startTime + "-" + labs[i].endTime + "</div>");
+				htmlString += ("<div class='separator'></div>");
         htmlString += ("<input id='" + labs[i]._id + "' class='checkbox' type='checkbox'>");
         htmlString += "</div></li>";
 
@@ -70,9 +70,3 @@ function updateAvailability(labId, qualified) {
 $(document).on('change', ':checkbox', function() {
     updateAvailability(this.id, this.checked);
 });
-
-//Lab object
-//_id
-//title
-//labTime
-//qualified  (boolean)

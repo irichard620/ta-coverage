@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META http-equiv="X-UA-Compatible" content="IE=8">
+<link rel="stylesheet" type="text/css" href="style/general.css">
+<link rel="stylesheet" type="text/css" href="style/lists.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src='php-cgi/createlab.js'></script>
+<body onLoad="initPage();">
+  <div class="container">
+    <div>
+      <button onclick="location.href='dashboard.html';" type="submit">BACK TO DASHBOARD</button>
+    </div>
+    <div id="createLab" class="subContainer">
+      <h2 style="color: black;">Create Lab Section</h2>
+      <form>
+        Title: <input class="accountField" type="text" id="title" size="20" value="">
+        <br></br>
+        Day of Week: <select id="daySelect">
+          <option value="monday" selected>Monday</option>
+          <option value="tuesday">Tuesday</option>
+          <option value="wednesday">Wednesday</option>
+          <option value="thursday">Thursday</option>
+          <option value="friday">Friday</option>
+        </select>
+        <br></br>
+        Start Time: <input type="time" id="startTime" required>
+        <br></br>
+        End Time: <input type="time" id="endTime" required>
+        <button type="button" class="saveButton" onClick="createLab();">CREATE</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

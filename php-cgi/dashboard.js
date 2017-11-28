@@ -2,7 +2,7 @@ function initDashboard() {
 	var userId = localStorage.getItem('_id');
 	if (userId == null) {
 		window.location.href = 'login.html';
-	} 
+	}
 
 	// Retrieve user info from local storage
 	var name = localStorage.getItem('name');
@@ -25,12 +25,11 @@ function initDashboard() {
     var labs = data.labs;
     if (response.includes("Success")) {
       var htmlString = "";
-      var separatorString = "<div class='separator'> - </div>";
 
       for (var i = 0; i < labs.length; i++) {
         htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
-        htmlString += separatorString;
+        htmlString += ("<div class='separator'> | </div>");
 				htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
 				labs[i].startTime + "-" + labs[i].endTime + "</div>");
         htmlString += "</div></li>";
@@ -61,15 +60,15 @@ function initDashboard() {
     var labs = data.labs;
     if (response.includes("Success")) {
       var htmlString = "";
-      var separatorString = "<div class='separator'> - </div>";
 
       for (var i = 0; i < labs.length; i++) {
         htmlString += "<li><div>";
         htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
-        htmlString += separatorString;
+        htmlString += ("<div class='separator'> | </div>");
         htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
 				labs[i].startTime + "-" + labs[i].endTime + "</div>");
-				htmlString += ("<button onClick=goToLabDashboard('" + labs[i]._id + "');>MORE</button>");
+				htmlString += ("<div class='separator'></div>");
+				htmlString += ("<button class='labButton' onClick=goToLabDashboard('" + labs[i]._id + "');>EDIT</button>");
         htmlString += "</div></li>";
 
         //add html to list

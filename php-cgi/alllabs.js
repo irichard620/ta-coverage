@@ -1,3 +1,5 @@
+var labs;
+
 function createListOfLabs() {
 	var userId = localStorage.getItem('_id');
 	if (userId == null) {
@@ -11,19 +13,10 @@ function createListOfLabs() {
 
   request.done(function (data, textStatus, jqxhr) {
     var response = data.response;
-    var labs = data.labs;
+    labs = data.labs;
     if (response.includes("Success")) {
-      var htmlString = "";
-
       for (var i = 0; i < labs.length; i++) {
-        htmlString += "<li><div>";
-        htmlString += ("<div class='lab'>" + labs[i].title + "</div>");
-        htmlString += ("<div class='separator'> | </div>");
-        htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
-				labs[i].startTime + "-" + labs[i].endTime + "</div>");
-				htmlString += ("<div class='separator'></div>");
-        htmlString += ("<input id='" + labs[i]._id + "' class='checkbox' type='checkbox'>");
-        htmlString += "</div></li>";
+				var htmlString = createHtmlString(labs[i]);
 
         //add html to list
         $("#alllabs ul").append(htmlString);
@@ -32,8 +25,6 @@ function createListOfLabs() {
         if (labs[i].qualified) {
 					$('#' + labs[i]._id).prop('checked', true);
 				}
-
-        htmlString = "";  // Reset htmlstring for next iteration (lab)
       }
 
     } else {
@@ -43,6 +34,19 @@ function createListOfLabs() {
   request.fail(function() {
     alert("Failed");
   });
+}
+
+function createHtmlString(lab) {
+	var htmlString = "";
+	htmlString += "<li><div>";
+	htmlString += ("<div class='lab'>" + lab.title + "</div>");
+	htmlString += ("<div class='separator'> | </div>");
+	htmlString += ("<div class='time'>" + lab.dayOfWeek + " " +
+	lab.startTime + "-" + lab.endTime + "</div>");
+	htmlString += ("<div class='separator'></div>");
+	htmlString += ("<input id='" + lab._id + "' class='checkbox' type='checkbox'>");
+	htmlString += "</div></li>";
+	return htmlString;
 }
 
 function updateAvailability(labId, qualified) {
@@ -65,6 +69,41 @@ function updateAvailability(labId, qualified) {
       data: {user_id: userId, lab_id: labId}
     });
   }
+}
+
+function updateResults() {
+	// Get search text
+	var searchText = document.getElementById("search").value.trim();
+
+	// Empty list
+	$("#alllabs ul").empty();
+
+	var labResults = getQueryResults(searchText);
+	for (var i = 0; i < labResults.length; i++) {
+		var htmlString = createHtmlString(labResults[i]);
+
+		//add html to list
+		$("#alllabs ul").append(htmlString);
+
+		// Check appropriate check boxesd\
+		if (labResults[i].qualified) {
+			$('#' + labResults[i]._id).prop('checked', true);
+		}
+	}
+}
+
+function getQueryResults(searchText) {
+	var labResults =[];
+	if (searchText = "") {
+		return labs;
+	} else {
+		for (var i = 0; i < labs.length; i++) {
+			if (labs[i].searchString.includes(searchText.toLower())) {
+				labResults.push(labs[i]);
+			}
+		}
+		return labResults;
+	}
 }
 
 $(document).on('change', ':checkbox', function() {

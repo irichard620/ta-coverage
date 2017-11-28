@@ -18,8 +18,38 @@ function initLabDashboard() {
     if (response.includes("Success")) {
       document.getElementById('title').value = lab.title;
       document.getElementById('daySelect').value = lab.dayOfWeek;
-      document.getElementById('startTime').value = lab.startTime;
-      document.getElementById('endTime').value = lab.endTime;
+
+      // Set start time
+      var meridianStart = lab.startTime.slice(-2);
+      var timesplitStart = lab.startTime.split(':');
+      var hoursStart = timesplitStart[0];
+      var minutesStart = timesplitStart[1];
+      if (meridianStart == "PM") {
+        if (hoursStart != 12) {
+          hoursStart += 12;
+        }
+      } else if (meridianStart == "AM") {
+        if (hoursStart == 12) {
+          hoursStart = 0;
+        }
+      }
+      document.getElementById('startTime').value = hoursStart + ":" + minutesStart;
+
+      // Set end time
+      var meridianEnd = lab.endTime.slice(-2);
+      var timesplitEnd = lab.endTime.split(':');
+      var hoursEnd = timesplitEnd[0];
+      var minutesEnd = timesplitEnd[1];
+      if (meridianEnd == "PM") {
+        if (hoursEnd != 12) {
+          hoursEnd += 12;
+        }
+      } else if (meridianEnd == "AM") {
+        if (hoursEnd == 12) {
+          hoursEnd = 0;
+        }
+      }
+      document.getElementById('endTime').value = hoursEnd + ":" + minutesEnd;
     } else {
         alert("Error");
     }
@@ -71,6 +101,42 @@ function editLab() {
   var dayOfWeek = document.getElementById('daySelect').value;
   var startTime = document.getElementById('startTime').value;
   var endTime = document.getElementById('endTime').value;
+
+  // Make start time and end time correct format
+  var timesplitStart = startTime.split(':');
+  var meridianStart = "";
+  var hoursStart = timesplitStart[0];
+  var minutesStart = timesplitStart[1];
+  if (hoursStart > 12) {
+    meridianStart = "PM";
+    hoursStart -= 12;
+  } else if (hoursStart < 12) {
+    meridianStart = "AM";
+    if (hoursStart == 0) {
+      hoursStart = 12;
+    }
+  } else {
+    meridianStart = "PM";
+  }
+  startTime = hoursStart + ":" + minutesStart + meridianStart;
+
+
+  var timesplitEnd = endTime.split(':');
+  var meridianEnd = "";
+  var hoursEnd = timesplitEnd[0];
+  var minutesEnd = timesplitEnd[1];
+  if (hoursEnd > 12) {
+    meridianEnd = "PM";
+    hoursEnd -= 12;
+  } else if (hoursEnd < 12) {
+    meridianEnd = "AM";
+    if (hoursEnd == 0) {
+      hoursEnd = 12;
+    }
+  } else {
+    meridianEnd = "PM";
+  }
+  endTime = hoursEnd + ":" + minutesEnd + meridianEnd;
 
   var request = $.ajax({
     url: 'php-cgi/labs.php',

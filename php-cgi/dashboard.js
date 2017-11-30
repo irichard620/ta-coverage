@@ -68,7 +68,7 @@ function initDashboard() {
         htmlString += ("<div class='time'>" + labs[i].dayOfWeek + " " +
 				labs[i].startTime + "-" + labs[i].endTime + "</div>");
 				htmlString += ("<div class='separator'></div>");
-				htmlString += ("<button class='labButton' onClick=goToLabDashboard('" + labs[i]._id + "');>EDIT</button>");
+				htmlString += ("<button class='labButton' onClick=goToLabDashboard('" + labs[i]._id + "');>MANAGE</button>");
         htmlString += "</div></li>";
 
         //add html to list

@@ -1,7 +1,7 @@
 function register() {
   var NAME = $('#name').val();
   var EMAIL = $('#email').val();
-  var PASSWORD = $('#password').val();
+  var PASSWORD = md5($('#password').val());
   var PHONE = $('#phone').val();
   var CODE = $('#accesscode').val();
   var request = $.ajax({

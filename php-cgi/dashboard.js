@@ -10,7 +10,7 @@ function initDashboard() {
 	var phone = localStorage.getItem('phone');
 
 	document.getElementById('name').value = name;
-	document.getElementById('email').value = email;
+	document.getElementById('email').innerHTML = email;
 	document.getElementById('phone').value = phone;
 
 	// Retrieve qualified labs for this user
@@ -90,14 +90,13 @@ function editUser() {
 	var _id = localStorage.getItem('_id');
 
 	var name = document.getElementById('name').value;
-	var email = document.getElementById('email').value;
 	var phone = document.getElementById('phone').value;
 
 	var request = $.ajax({
 		url: 'php-cgi/users.php?',
 		type: 'put',
 		dataType: "json",
-		data: {_id: _id, name: name, email: email, phone: phone}
+		data: {_id: _id, name: name, phone: phone}
 	});
 
 	request.done(function (data, textStatus, jqxhr) {
@@ -105,7 +104,6 @@ function editUser() {
     if (response.includes("Success")) {
 			alert("Account details updated!");
 			localStorage.setItem('name', name);
-			localStorage.setItem('email', email);
 			localStorage.setItem('phone', phone);
     } else {
       alert(response);
